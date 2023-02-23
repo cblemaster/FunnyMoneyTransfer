@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.Json;
 
 namespace FunnyMoneyTransfer.Data;
 
@@ -21,7 +20,7 @@ public partial class FunnyMoneyTransferContext : DbContext
 
     public virtual DbSet<Transfer> Transfers { get; set; } //TODO: Transfer model has AccountIdFromNavigation and AccountIdToNavigation prop names - can these be 'friendlier'?
 
-    //public virtual DbSet<TransferStatus> TransferStatuses { get; set; }
+    //public virtual DbSet<TransferStatus> TransferStatuses { get; set; } //TODO: Remove commented out code
 
     //public virtual DbSet<TransferType> TransferTypes { get; set; }
 
@@ -188,7 +187,7 @@ public partial class FunnyMoneyTransferContext : DbContext
         string configFileName = "appsettings.json";
         string fullPathToConfigFile = Path.Combine(currentDirectory, configFileName);
 
-        IConfigurationRoot builder = new ConfigurationBuilder()            
+        IConfigurationRoot builder = new ConfigurationBuilder()
             .AddJsonFile(fullPathToConfigFile, optional: false)
             .Build();
 
