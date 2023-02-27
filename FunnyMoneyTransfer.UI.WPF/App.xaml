@@ -6,6 +6,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <!--https://stackoverflow.com/questions/22114260/how-to-use-styles-defined-in-resourcedictionary-->
                 <ResourceDictionary Source="pack://application:,,,/FunnyMoneyTransfer.UI.WPF;component/User/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

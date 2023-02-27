@@ -45,16 +45,16 @@
                              Text="{Binding User.Username}"/>
                     <Label Style="{StaticResource validationLabelStyle}"
                            x:Name="lblUsernameValidation"
-                           Visibility="{Binding ValidationResult.ShowValidationErrorInUI, Converter={StaticResource VisibleIfTrueConverter}, Mode=OneWay}"
-                           ToolTip="{Binding ValidationResult.ErrorMessage, Mode=OneWay}"/>
+                           Visibility="{Binding ShowValidationErrorInUI, Converter={StaticResource VisibleIfTrueConverter}, Mode=OneWay}"
+                           ToolTip="{Binding ValidationErrorMessage, Mode=OneWay}"/>
                 </StackPanel>
                 <StackPanel Style="{StaticResource stackPanelStyle}"
                             Grid.Row="3"
                             Grid.Column="1">
                     <PasswordBox Style="{StaticResource passwordBoxStyle}"
-                                 x:Name="pbPassword"
-                                 MaxLength="50"
-                                 PasswordChanged="pbPassword_PasswordChanged" /> <!--This rule is arbitrary and not enforced anywhere else-->
+                                 x:Name="pbPassword"                                 
+                                 PasswordChanged="pbPassword_PasswordChanged"
+                                 MaxLength="50"/><!--This rule is arbitrary and not enforced anywhere else-->
                     <Label Style="{StaticResource validationLabelStyle}"
                            x:Name="lblPasswordValidation"
                            Visibility="Collapsed" />
