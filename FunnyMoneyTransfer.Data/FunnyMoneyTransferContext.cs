@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 
 namespace FunnyMoneyTransfer.Data;
@@ -149,10 +150,6 @@ public partial class FunnyMoneyTransferContext : DbContext
                 .HasMaxLength(200)
                 .IsUnicode(false)
                 .HasColumnName("password_hash");
-            entity.Property(e => e.Salt)
-                .HasMaxLength(200)
-                .IsUnicode(false)
-                .HasColumnName("salt");
             entity.Property(e => e.Username)
                 .HasMaxLength(50)
                 .IsUnicode(false)
@@ -181,11 +178,11 @@ public partial class FunnyMoneyTransferContext : DbContext
         });
     }
 
-    private static string GetConnectionStringFromConfiguration()
+    private static string GetConnectionStringFromConfiguration()  //TODO: Get this into Startup
     {
         string currentDirectory = Environment.CurrentDirectory;
         string configFileName = "appsettings.json";
-        string fullPathToConfigFile = Path.Combine(currentDirectory, configFileName);
+        string fullPathToConfigFile = Path.Combine(currentDirectory, @"..\..\..\..\FunnyMoneyTransfer.Data", configFileName);
 
         IConfigurationRoot builder = new ConfigurationBuilder()
             .AddJsonFile(fullPathToConfigFile, optional: false)

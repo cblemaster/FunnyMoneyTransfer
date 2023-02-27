@@ -7,6 +7,12 @@
              mc:Ignorable="d" 
              d:DesignHeight="450"
              d:DesignWidth="800">
+    <UserControl.DataContext>
+        <local:RegisterUserViewModel />
+    </UserControl.DataContext>
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="VisibleIfTrueConverter" />
+    </UserControl.Resources>    
     <Grid>
         <Border Style="{StaticResource borderStyle}">
             <Grid Style="{StaticResource gridStyle}">
@@ -35,23 +41,30 @@
                             Grid.Row="2"
                             Grid.Column="1">
                     <TextBox Style="{StaticResource textBoxStyle}"
-                             x:Name="tbUsername" />
+                             x:Name="tbUsername"
+                             Text="{Binding User.Username}"/>
                     <Label Style="{StaticResource validationLabelStyle}"
-                           x:Name="lblUsernameValidation" />
+                           x:Name="lblUsernameValidation"
+                           Visibility="{Binding ValidationResult.ShowValidationErrorInUI, Converter={StaticResource VisibleIfTrueConverter}, Mode=OneWay}"
+                           ToolTip="{Binding ValidationResult.ErrorMessage, Mode=OneWay}"/>
                 </StackPanel>
                 <StackPanel Style="{StaticResource stackPanelStyle}"
                             Grid.Row="3"
                             Grid.Column="1">
                     <PasswordBox Style="{StaticResource passwordBoxStyle}"
-                                 x:Name="pbPassword" />
+                                 x:Name="pbPassword"
+                                 MaxLength="50"
+                                 PasswordChanged="pbPassword_PasswordChanged" /> <!--This rule is arbitrary and not enforced anywhere else-->
                     <Label Style="{StaticResource validationLabelStyle}"
-                           x:Name="lblPasswordValidation" />
+                           x:Name="lblPasswordValidation"
+                           Visibility="Collapsed" />
                 </StackPanel>
                 <Button Style="{StaticResource buttonStyle}"
                         x:Name="btnRegister"
                         Grid.Column="1"
                         Grid.Row="4"
-                        Content="Register" />
+                        Content="Register"
+                        Command="{Binding RegisterCommand}"/>
             </Grid>
         </Border>
     </Grid>

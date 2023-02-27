@@ -8,8 +8,6 @@ public partial class User
 
     public string PasswordHash { get; set; } = null!;
 
-    public string Salt { get; set; } = null!;
-
     public DateTime CreateDate { get; set; }
 
     public virtual Account? Account { get; set; }

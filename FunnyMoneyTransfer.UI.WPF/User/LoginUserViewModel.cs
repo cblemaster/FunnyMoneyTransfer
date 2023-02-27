@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using FunnyMoneyTransfer.Data;
 
 namespace FunnyMoneyTransfer.UI.WPF.User
 {

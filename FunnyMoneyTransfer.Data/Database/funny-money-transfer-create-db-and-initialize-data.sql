@@ -44,7 +44,6 @@ CREATE TABLE users
 	id					int				IDENTITY(1,1)		NOT NULL,
 	username			varchar(50)							NOT NULL,
 	password_hash		varchar(200)						NOT NULL,
-	salt				varchar(200)						NOT NULL,
 	create_date			datetime							NOT NULL,
  
 	CONSTRAINT PK_users PRIMARY KEY(id),
