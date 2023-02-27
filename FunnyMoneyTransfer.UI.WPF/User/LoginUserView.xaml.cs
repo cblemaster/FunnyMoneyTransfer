@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace FunnyMoneyTransfer.UI.WPF.User
 {
@@ -7,9 +8,12 @@ namespace FunnyMoneyTransfer.UI.WPF.User
     /// </summary>
     public partial class LoginUserView : UserControl
     {
-        public LoginUserView()
+        public LoginUserView() => InitializeComponent();
+
+        private void pbPassword_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            InitializeComponent();
+            if (this.DataContext != null)
+                ((dynamic)this.DataContext).SecurePassword = ((PasswordBox)sender).SecurePassword;
         }
     }
 }

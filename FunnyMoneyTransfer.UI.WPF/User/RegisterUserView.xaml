@@ -46,7 +46,7 @@
                     <Label Style="{StaticResource validationLabelStyle}"
                            x:Name="lblUsernameValidation"
                            Visibility="{Binding ShowValidationErrorInUI, Converter={StaticResource VisibleIfTrueConverter}, Mode=OneWay}"
-                           ToolTip="{Binding ValidationErrorMessage, Mode=OneWay}"/>
+                           ToolTip="{Binding ValidationErrorMessage, Mode=OneWay}" />
                 </StackPanel>
                 <StackPanel Style="{StaticResource stackPanelStyle}"
                             Grid.Row="3"

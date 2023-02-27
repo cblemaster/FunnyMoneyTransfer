@@ -30,7 +30,6 @@ namespace FunnyMoneyTransfer.UI.WPF.User
         private bool _showValidationErrorInUI;
         private string? _validationErrorMessage = null;
         private RelayCommand _registerCommand = null!;
-
         #endregion
 
         #region events
