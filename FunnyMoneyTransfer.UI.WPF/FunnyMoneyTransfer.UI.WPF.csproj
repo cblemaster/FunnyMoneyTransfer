@@ -13,7 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Account\" />
     <Folder Include="Transfer\" />
   </ItemGroup>
 

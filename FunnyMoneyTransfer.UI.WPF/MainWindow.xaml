@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FunnyMoneyTransfer.UI.WPF"
         xmlns:user="clr-namespace:FunnyMoneyTransfer.UI.WPF.User"
+        xmlns:account="clr-namespace:FunnyMoneyTransfer.UI.WPF.Account"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <user:LoginUserView />
+        <account:BalanceView />
     </Grid>
 </Window>
