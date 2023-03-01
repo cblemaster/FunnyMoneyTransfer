@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace FunnyMoneyTransfer.Data;
 
@@ -156,5 +155,5 @@ public partial class FunnyMoneyTransferContext : DbContext
         });
 
         OnModelCreatingPartial(modelBuilder);
-    }    
+    }
 }
