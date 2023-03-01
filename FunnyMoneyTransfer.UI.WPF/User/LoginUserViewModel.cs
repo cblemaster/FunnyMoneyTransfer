@@ -164,7 +164,16 @@ namespace FunnyMoneyTransfer.UI.WPF.User
                 
                 MainWindowViewModel mainWindowViewModel = (MainWindowViewModel)App.Current.MainWindow.DataContext;
                 if (mainWindowViewModel != null)
+                {
                     mainWindowViewModel.LoggedInUser = this.User;
+
+                    mainWindowViewModel.ShowLoginAndRegisterMenuItems = false;
+                    mainWindowViewModel.ShowNonLoginAndRegisterMenuItems = true;
+                    mainWindowViewModel.ShowIntro = false;
+                    mainWindowViewModel.ShowBalanceControl = true;
+                    mainWindowViewModel.ShowLoginControl = false;
+                    mainWindowViewModel.ShowRegisterControl = false;
+                }                    
             }
         }
         #endregion

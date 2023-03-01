@@ -12,6 +12,12 @@ namespace FunnyMoneyTransfer.UI.WPF
         #region ctor
         public MainWindowViewModel()
         {
+            this.ShowLoginAndRegisterMenuItems = true;
+            this.ShowNonLoginAndRegisterMenuItems = false;
+            this.ShowIntro = true;
+            this.ShowBalanceControl = false;
+            this.ShowLoginControl = false;
+            this.ShowRegisterControl = false;
         }
         #endregion
 
@@ -19,6 +25,13 @@ namespace FunnyMoneyTransfer.UI.WPF
         private Data.User _loggedInUser = null!;
         private RelayCommand _navToLoginCommand = null!;
         private RelayCommand _navToRegisterCommand = null!;
+        private RelayCommand _navToLogoutCommand = null!;
+        private bool _showLoginAndRegisterMenuItems;
+        private bool _showNonLoginAndRegisterMenuItems;
+        private bool _showBalanceControl;
+        private bool _showIntro;
+        private bool _showLoginControl;
+        private bool _showRegisterControl;        
         #endregion
 
         #region events
@@ -39,10 +52,86 @@ namespace FunnyMoneyTransfer.UI.WPF
             }
         }
 
-        public bool IsUserLoggedIn => !this.IsNoUserLoggedIn;
+        //public bool IsUserLoggedIn => !this.IsNoUserLoggedIn;
 
-        public bool IsNoUserLoggedIn => !(this.LoggedInUser is Data.User);
+        //public bool IsNoUserLoggedIn => !(this.LoggedInUser is Data.User);
 
+        public bool ShowLoginAndRegisterMenuItems
+        {
+            get => _showLoginAndRegisterMenuItems;
+            set
+            {
+                if (value != _showLoginAndRegisterMenuItems)
+                {
+                    _showLoginAndRegisterMenuItems = value;
+                    this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(ShowLoginAndRegisterMenuItems)));
+                }
+            }
+        }
+
+        public bool ShowNonLoginAndRegisterMenuItems
+        {
+            get => _showNonLoginAndRegisterMenuItems;
+            set
+            {
+                if (value != _showNonLoginAndRegisterMenuItems)
+                {
+                    _showNonLoginAndRegisterMenuItems = value;
+                    this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(ShowNonLoginAndRegisterMenuItems)));
+                }                
+            }
+        }
+        public bool ShowBalanceControl
+        {
+            get => _showBalanceControl;
+            set
+            {
+                if (value != _showBalanceControl)
+                {
+                    _showBalanceControl = value;
+                    this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(ShowBalanceControl)));
+                }
+            }
+        }
+        public bool ShowIntro
+        {
+            get => _showIntro;
+            set
+            {
+                if (value != _showIntro)
+                {
+                    _showIntro = value;
+                    this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(ShowIntro)));
+                }
+                
+            }
+        }
+        public bool ShowLoginControl
+        {
+            get => _showLoginControl;
+            set
+            {
+                if (value != _showLoginControl)
+                {
+                    _showLoginControl = value;
+                    this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(ShowLoginControl)));
+                }
+                _showLoginControl = value;
+            }
+        }
+        public bool ShowRegisterControl
+        {
+            get => _showRegisterControl;
+            set
+            {
+                if (value != _showRegisterControl)
+                {
+                    _showRegisterControl = value;
+                    this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(ShowRegisterControl)));
+                }
+                _showRegisterControl = value;
+            }
+        }
         public ICommand NavToRegisterCommand
         {
             get
@@ -54,8 +143,7 @@ namespace FunnyMoneyTransfer.UI.WPF
                 }
                 return _navToRegisterCommand;
             }
-        }        
-
+        }
         public ICommand NavToLoginCommand
         {
             get
@@ -68,26 +156,60 @@ namespace FunnyMoneyTransfer.UI.WPF
                 return _navToLoginCommand;
             }
         }
-
+        public ICommand NavToLogoutCommand
+        {
+            get
+            {
+                if (_navToLogoutCommand == null)
+                {
+                    _navToLogoutCommand = new RelayCommand(param => this.NavToLogout(),
+                        param => this.CanNavigate);
+                }
+                return _navToLogoutCommand;
+            }
+        }
         public bool CanNavigate => true;
         #endregion
 
         #region methods
         private void NavToRegister()
         {
-            MainWindow mainWindow = (MainWindow)App.Current.MainWindow;
-            mainWindow.tbIntro.Visibility = Visibility.Collapsed;
-            mainWindow.registerUserView.Visibility = Visibility.Visible;
-            mainWindow.balanceView.Visibility = Visibility.Collapsed;
-            mainWindow.loginUserView.Visibility = Visibility.Collapsed;
+            this.ShowLoginAndRegisterMenuItems = !(this.LoggedInUser is Data.User);
+            this.ShowNonLoginAndRegisterMenuItems = !ShowLoginAndRegisterMenuItems;
+            this.ShowIntro = false;
+            this.ShowBalanceControl = false;
+            this.ShowLoginControl = false;
+            this.ShowRegisterControl = true;
         } //TODO: Get the nav commands combined into one command with a param for destination
+        
         private void NavToLogin()
         {
-            MainWindow mainWindow = (MainWindow)App.Current.MainWindow;
-            mainWindow.tbIntro.Visibility = Visibility.Collapsed;
-            mainWindow.registerUserView.Visibility = Visibility.Collapsed;
-            mainWindow.balanceView.Visibility = Visibility.Collapsed;
-            mainWindow.loginUserView.Visibility = Visibility.Visible;
+            this.ShowLoginAndRegisterMenuItems = !(this.LoggedInUser is Data.User);
+            this.ShowNonLoginAndRegisterMenuItems = !ShowLoginAndRegisterMenuItems;
+            this.ShowIntro = false;
+            this.ShowBalanceControl = false;
+            this.ShowLoginControl = true;
+            this.ShowRegisterControl = false;
+        }
+
+        private void NavToLogout()
+        {
+            this.LoggedInUser = null!;
+            this.ShowLoginAndRegisterMenuItems = !(this.LoggedInUser is Data.User);
+            this.ShowNonLoginAndRegisterMenuItems = !ShowLoginAndRegisterMenuItems;
+            this.ShowIntro = true;
+            this.ShowBalanceControl = false;
+            this.ShowLoginControl = false;
+            this.ShowRegisterControl = false;
+
+            MainWindow m = (MainWindow)App.Current.MainWindow;
+            if (m != null)
+            {
+                m.loginUserView.tbUsername.Text = null;
+                m.loginUserView.pbPassword.Password = null;
+                m.registerUserView.tbUsername.Text = null;
+                m.registerUserView.pbPassword.Password = null;
+            }
         }
         #endregion
     }
