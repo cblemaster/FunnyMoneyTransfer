@@ -1,8 +1,10 @@
 ﻿namespace FunnyMoneyTransfer.Data;
 
-public enum TransferStatus
+public partial class TransferStatus
 {
-    Pending = 1,
-    Approved = 2,
-    Rejected = 3,
+    public int Id { get; set; }
+
+    public string Description { get; set; } = null!;
+
+    public virtual ICollection<Transfer> Transfers { get; } = new List<Transfer>();
 }

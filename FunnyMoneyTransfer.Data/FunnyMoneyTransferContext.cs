@@ -1,7 +1,6 @@
-﻿//https://learn.microsoft.com/en-us/ef/core/managing-schemas/scaffolding/?tabs=dotnet-core-cli
-
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace FunnyMoneyTransfer.Data;
 
@@ -16,20 +15,21 @@ public partial class FunnyMoneyTransferContext : DbContext
     {
     }
 
-    public virtual DbSet<Account> Accounts { get; set; } //TODO: Account model has TransferAccountIdFromNavigations and TransferAccountIdToNavigations prop names - can these be 'friendlier'?
+    public virtual DbSet<Account> Accounts { get; set; }
 
     public virtual DbSet<StartingBalance> StartingBalances { get; set; }
 
-    public virtual DbSet<Transfer> Transfers { get; set; } //TODO: Transfer model has AccountIdFromNavigation and AccountIdToNavigation prop names - can these be 'friendlier'?
+    public virtual DbSet<Transfer> Transfers { get; set; }
 
-    //public virtual DbSet<TransferStatus> TransferStatuses { get; set; } //TODO: Remove commented out code
+    public virtual DbSet<TransferStatus> TransferStatuses { get; set; }
 
-    //public virtual DbSet<TransferType> TransferTypes { get; set; }
+    public virtual DbSet<TransferType> TransferTypes { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer(GetConnectionStringFromConfiguration());
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Server=.;Database=funny_money_transfer;Trusted_Connection=True;Trust Server Certificate=true");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -98,44 +98,42 @@ public partial class FunnyMoneyTransferContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_transfers_accounts_to");
 
-            //entity.HasOne(d => d.TransferStatus).WithMany(p => p.Transfers)
-            //    .HasForeignKey(d => d.TransferStatusId)
-            //    .OnDelete(DeleteBehavior.ClientSetNull)
-            //    .HasConstraintName("FK_transfers_transfer_statuses");
+            entity.HasOne(d => d.TransferStatus).WithMany(p => p.Transfers)
+                .HasForeignKey(d => d.TransferStatusId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_transfers_transfer_statuses");
 
-            //entity.HasOne(d => d.TransferType).WithMany(p => p.Transfers)
-            //    .HasForeignKey(d => d.TransferTypeId)
-            //    .OnDelete(DeleteBehavior.ClientSetNull)
-            //    .HasConstraintName("FK_transfers_transfer_types");
+            entity.HasOne(d => d.TransferType).WithMany(p => p.Transfers)
+                .HasForeignKey(d => d.TransferTypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_transfers_transfer_types");
         });
 
-        // I changed transfer status from a class mapped to a db table to an enum
-        //modelBuilder.Entity<TransferStatus>(entity =>
-        //{
-        //    entity.ToTable("transfer_statuses");
+        modelBuilder.Entity<TransferStatus>(entity =>
+        {
+            entity.ToTable("transfer_statuses");
 
-        //    entity.HasIndex(e => e.Description, "UC_transfer_statuses_transfer_status_description").IsUnique();
+            entity.HasIndex(e => e.Description, "UC_transfer_statuses_transfer_status_description").IsUnique();
 
-        //    entity.Property(e => e.Id).HasColumnName("id");
-        //    entity.Property(e => e.Description)
-        //        .HasMaxLength(10)
-        //        .IsUnicode(false)
-        //        .HasColumnName("description");
-        //});
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Description)
+                .HasMaxLength(10)
+                .IsUnicode(false)
+                .HasColumnName("description");
+        });
 
-        // I changed transfer type from a class mapped to a db table to an enum
-        //modelBuilder.Entity<TransferType>(entity =>
-        //{
-        //    entity.ToTable("transfer_types");
+        modelBuilder.Entity<TransferType>(entity =>
+        {
+            entity.ToTable("transfer_types");
 
-        //    entity.HasIndex(e => e.Description, "UC_transfer_types_transfer_type_description").IsUnique();
+            entity.HasIndex(e => e.Description, "UC_transfer_types_transfer_type_description").IsUnique();
 
-        //    entity.Property(e => e.Id).HasColumnName("id");
-        //    entity.Property(e => e.Description)
-        //        .HasMaxLength(10)
-        //        .IsUnicode(false)
-        //        .HasColumnName("description");
-        //});
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Description)
+                .HasMaxLength(10)
+                .IsUnicode(false)
+                .HasColumnName("description");
+        });
 
         modelBuilder.Entity<User>(entity =>
         {
@@ -160,35 +158,5 @@ public partial class FunnyMoneyTransferContext : DbContext
         OnModelCreatingPartial(modelBuilder);
     }
 
-    private void OnModelCreatingPartial(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<Account>(entity => entity.HasKey(e => e.Id));
-        modelBuilder.Entity<StartingBalance>(entity => entity.HasKey(e => e.Id));
-        modelBuilder.Entity<Transfer>(entity =>
-        {
-            entity.HasKey(e => e.Id);
-            entity.ToTable(t => t.HasCheckConstraint("CK_transfers_not_same_account", "(account_id_from<>account_id_to)"));
-            entity.ToTable(t => t.HasCheckConstraint("CK_transfers_amount_gt_0", "(amount > 0)"));
-            entity.Property(p => p.TransferType).HasConversion<int>();  // I changed transfer type from a class mapped to a db table to an enum
-            entity.Property(p => p.TransferStatus).HasConversion<int>(); // I changed transfer status from a class mapped to a db table to an enum
-        });
-        modelBuilder.Entity<User>(entity =>
-        {
-            entity.HasKey(e => e.Id);
-            entity.Property(e => e.Username).IsRequired();
-        });
-    }
-
-    private static string GetConnectionStringFromConfiguration()  //TODO: Get this into Startup
-    {
-        string currentDirectory = Environment.CurrentDirectory;
-        string configFileName = "appsettings.json";
-        string fullPathToConfigFile = Path.Combine(currentDirectory, @"..\..\..\..\FunnyMoneyTransfer.Data", configFileName);
-
-        IConfigurationRoot builder = new ConfigurationBuilder()
-            .AddJsonFile(fullPathToConfigFile, optional: false)
-            .Build();
-
-        return builder.GetConnectionString("Project") ?? string.Empty;
-    }
+    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }

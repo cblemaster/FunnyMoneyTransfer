@@ -20,7 +20,7 @@ public partial class Transfer
 
     public virtual Account AccountIdToNavigation { get; set; } = null!;
 
-    public virtual TransferStatus TransferStatus { get; set; }
+    public virtual TransferStatus TransferStatus { get; set; } = null!;
 
-    public virtual TransferType TransferType { get; set; }
+    public virtual TransferType TransferType { get; set; } = null!;
 }
