@@ -25,11 +25,11 @@ namespace FunnyMoneyTransfer.UI.WPF.User
         #region fields
         private readonly FunnyMoneyTransferContext _db = new();
         private Data.User _user = null!;
-        private Data.User _loggedInUser = null!;
+        //private User _loggedInUser = null!;
         private bool _isValid;
         private bool _showValidationErrorInUI;
         private string? _validationErrorMessage = null;
-        private RelayCommand _loginCommand = null!;        
+        private RelayCommand _loginCommand = null!;
         #endregion
 
         #region events
@@ -50,18 +50,18 @@ namespace FunnyMoneyTransfer.UI.WPF.User
             }
         }
 
-        public Data.User LoggedInUser
-        {
-            get => _loggedInUser;
-            set
-            {
-                if (value != _loggedInUser)
-                {
-                    _loggedInUser = value;
-                    this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(LoggedInUser)));
-                }
-            }
-        }
+        //public User LoggedInUser
+        //{
+        //    get => _loggedInUser;
+        //    set
+        //    {
+        //        if (value != _loggedInUser)
+        //        {
+        //            _loggedInUser = value;
+        //            this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(LoggedInUser)));
+        //        }
+        //    }
+        //}
 
         public bool IsValid
         {
@@ -158,10 +158,13 @@ namespace FunnyMoneyTransfer.UI.WPF.User
             this.Validate();
             if (this.IsValid)
             {
-                this.LoggedInUser = _db.Users.FirstOrDefault(u => u.Username == this.User.Username)!; //usernames are unique, so ok to search by username
-                if (!(PasswordHasher.IsPasswordValid(this.SecurePassword.ToString()!, this.LoggedInUser.PasswordHash)))
-                    this.LoggedInUser = null!;
-                this.User = null!;
+                this.User = _db.Users.FirstOrDefault(u => u.Username == this.User.Username)!; //usernames are unique, so ok to search by username
+                if (!(PasswordHasher.IsPasswordValid(this.SecurePassword.ToString()!, this.User.PasswordHash)))
+                    this.User = null!;
+                
+                MainWindowViewModel mainWindowViewModel = (MainWindowViewModel)App.Current.MainWindow.DataContext;
+                if (mainWindowViewModel != null)
+                    mainWindowViewModel.LoggedInUser = this.User;
             }
         }
         #endregion

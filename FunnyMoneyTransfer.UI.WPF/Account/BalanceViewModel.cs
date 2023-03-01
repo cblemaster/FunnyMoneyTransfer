@@ -1,11 +1,8 @@
 ﻿using FunnyMoneyTransfer.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FunnyMoneyTransfer.UI.WPF.Account
 {
@@ -14,16 +11,21 @@ namespace FunnyMoneyTransfer.UI.WPF.Account
         #region ctor
         public BalanceViewModel()
         {
-            Data.Account a = this._db.Accounts
+            MainWindowViewModel mainContext = (App.Current.MainWindow.DataContext as MainWindowViewModel)!;
+
+            if (mainContext != null && mainContext.LoggedInUser != null)
+            {
+                Data.Account a = this._db.Accounts
                                         .Include(n => n.StartingBalance)
                                         .Include(t => t.TransferAccountIdToNavigations)
                                         .Include(t => t.TransferAccountIdFromNavigations)
-                                        .FirstOrDefault(a => a.UserId == 2)!;
-            if (a != null)
-            {
-                this.CalculatedBalance = a.CalculatedBalance();
-                this.AsOfDate = DateTime.Now.ToString();
-            }
+                                        .FirstOrDefault(a => a.UserId == mainContext.LoggedInUser.Id)!;
+                if (a != null)
+                {
+                    this.CalculatedBalance = a.CalculatedBalance();
+                    this.AsOfDate = DateTime.Now.ToString();
+                }
+            }           
         }
         #endregion
 
@@ -40,14 +42,14 @@ namespace FunnyMoneyTransfer.UI.WPF.Account
         #region properties       
         public decimal CalculatedBalance
         {
-            get =>_calculatedBalance;
+            get => _calculatedBalance;
             set
             {
                 if (value != _calculatedBalance)
                 {
                     _calculatedBalance = value;
                     this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(CalculatedBalance)));
-                }                
+                }
             }
         }
 

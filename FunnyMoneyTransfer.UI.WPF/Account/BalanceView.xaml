@@ -18,7 +18,7 @@
             <StackPanel Style="{StaticResource verticalStackPanelStyle}">
                 <TextBlock Style="{StaticResource headerTextBlockStyle}"
                            x:Name="tbHeader"
-                           Text="Your Current Balance" />
+                           Text="Your Current Balance" TextWrapping="WrapWithOverflow" />
                 <TextBlock Style="{StaticResource balanceTextBlockStyle}"
                            x:Name="tbBalance"
                            Grid.Row="1"

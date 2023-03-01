@@ -167,6 +167,10 @@ namespace FunnyMoneyTransfer.UI.WPF.User
                 };
                 _db.Users.Add(this.User);
                 _db.SaveChanges();
+
+                MainWindowViewModel mainWindowViewModel = (MainWindowViewModel)App.Current.MainWindow.DataContext;
+                if (mainWindowViewModel != null)
+                    mainWindowViewModel.LoggedInUser = this.User;
             }
         }
         #endregion
