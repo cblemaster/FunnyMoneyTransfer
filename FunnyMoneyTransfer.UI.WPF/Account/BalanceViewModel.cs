@@ -22,10 +22,10 @@ namespace FunnyMoneyTransfer.UI.WPF.Account
                                         .FirstOrDefault(a => a.UserId == mainContext.LoggedInUser.Id)!;
                 if (a != null)
                 {
-                    this.CalculatedBalance = a.CalculatedBalance();
-                    this.AsOfDate = DateTime.Now.ToString();
+                    this.CalculatedBalance = a.CalculatedBalance();                    
                 }
-            }           
+            }
+            this.AsOfDate = DateTime.Now.ToString();
         }
         #endregion
 
@@ -49,11 +49,12 @@ namespace FunnyMoneyTransfer.UI.WPF.Account
                 {
                     _calculatedBalance = value;
                     this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(CalculatedBalance)));
+                    this.AsOfDate = DateTime.Now.ToString();
                 }
             }
         }
 
-        public string AsOfDate
+        public string AsOfDate  //TODO: Need this to refresh when balance is recalculated, not sure if it is working this way...
         {
             get => _asOfDate;
             set
