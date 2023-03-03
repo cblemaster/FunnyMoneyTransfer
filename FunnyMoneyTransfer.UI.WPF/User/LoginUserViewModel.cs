@@ -1,5 +1,6 @@
 ﻿using FunnyMoneyTransfer.Data;
 using FunnyMoneyTransfer.Security;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.Linq;
 using System.Security;
@@ -144,7 +145,7 @@ namespace FunnyMoneyTransfer.UI.WPF.User
             this.Validate();
             if (this.IsValid)
             {
-                this.User = _db.Users.FirstOrDefault(u => u.Username == this.User.Username)!; //usernames are unique, so ok to search by username
+                this.User = _db.Users.Include(u => u.Account).FirstOrDefault(u => u.Username == this.User.Username)!; //usernames are unique, so ok to search by username
                 if (!(PasswordHasher.IsPasswordValid(this.SecurePassword.ToString()!, this.User.PasswordHash)))
                     this.User = null!;
 

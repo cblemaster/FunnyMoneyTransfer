@@ -13,17 +13,11 @@ namespace FunnyMoneyTransfer.UI.WPF.Account
         {
             MainWindowViewModel mainContext = (App.Current.MainWindow.DataContext as MainWindowViewModel)!;
 
-            if (mainContext != null && mainContext.LoggedInUser != null)
+            Data.User loggedInUser = mainContext.LoggedInUser;
+            
+            if (mainContext != null && loggedInUser is Data.User && loggedInUser.Account is Data.Account)
             {
-                Data.Account a = this._db.Accounts
-                                        .Include(n => n.StartingBalance)
-                                        .Include(t => t.TransferAccountIdToNavigations)
-                                        .Include(t => t.TransferAccountIdFromNavigations)
-                                        .FirstOrDefault(a => a.UserId == mainContext.LoggedInUser.Id)!;
-                if (a != null)
-                {
-                    this.CalculatedBalance = a.CalculatedBalance();
-                }
+                this.CalculatedBalance = mainContext.LoggedInUser.Account!.CalculatedBalance;                
             }
             this.AsOfDate = DateTime.Now.ToString();
         }
