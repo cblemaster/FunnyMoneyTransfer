@@ -25,7 +25,6 @@ namespace FunnyMoneyTransfer.UI.WPF.User
         #region fields
         private readonly FunnyMoneyTransferContext _db = new();
         private Data.User _user = null!;
-        //private User _loggedInUser = null!;
         private bool _isValid;
         private bool _showValidationErrorInUI;
         private string? _validationErrorMessage = null;
@@ -49,20 +48,7 @@ namespace FunnyMoneyTransfer.UI.WPF.User
                 }
             }
         }
-
-        //public User LoggedInUser
-        //{
-        //    get => _loggedInUser;
-        //    set
-        //    {
-        //        if (value != _loggedInUser)
-        //        {
-        //            _loggedInUser = value;
-        //            this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(LoggedInUser)));
-        //        }
-        //    }
-        //}
-
+        
         public bool IsValid
         {
             get => _isValid;
@@ -127,7 +113,7 @@ namespace FunnyMoneyTransfer.UI.WPF.User
                 return this.IsValid;
             }
         }
-        #endregion region
+        #endregion
 
         #region methods
         //these validation rules are also enforced in the database users table
@@ -153,7 +139,7 @@ namespace FunnyMoneyTransfer.UI.WPF.User
             }
         }
 
-        public void Login()
+        public void Login() //TODO: Error handling if login is not successful
         {
             this.Validate();
             if (this.IsValid)
@@ -173,6 +159,7 @@ namespace FunnyMoneyTransfer.UI.WPF.User
                     mainWindowViewModel.ShowBalanceControl = true;
                     mainWindowViewModel.ShowLoginControl = false;
                     mainWindowViewModel.ShowRegisterControl = false;
+                    mainWindowViewModel.ShowUserListControl = false;
                 }                    
             }
         }

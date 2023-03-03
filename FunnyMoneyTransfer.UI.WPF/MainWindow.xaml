@@ -85,7 +85,8 @@
                       Visibility="{Binding ShowNonLoginAndRegisterMenuItems, Converter={StaticResource VisibleIfTrueConverter}}" />
             <MenuItem Style="{StaticResource menuItemStyle}"
                       Header="Users"
-                      Visibility="{Binding ShowNonLoginAndRegisterMenuItems, Converter={StaticResource VisibleIfTrueConverter}}" />
+                      Visibility="{Binding ShowNonLoginAndRegisterMenuItems, Converter={StaticResource VisibleIfTrueConverter}}"
+                      Command="{Binding NavToUsersListCommand}"/>
         </Menu>
         <Grid Grid.Row="1"
               Visibility="{Binding ShowBalanceControl, Converter={StaticResource VisibleIfTrueConverter}}">
@@ -108,6 +109,11 @@
                        Style="{StaticResource textBlockStyle}"
                        Text="Hello! Please Register or Login"
                        Visibility="{Binding ShowIntro, Converter={StaticResource VisibleIfTrueConverter}}" />
+        </Grid>
+        <Grid Grid.Row="1"
+              Grid.Column="1"
+              Visibility="{Binding ShowUserListControl, Converter={StaticResource VisibleIfTrueConverter}}">
+            <user:ListUsersView x:Name="listUsersView" />
         </Grid>
     </Grid>
 </Window>

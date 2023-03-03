@@ -179,8 +179,8 @@ namespace FunnyMoneyTransfer.UI.WPF.User
                     mainWindowViewModel.ShowBalanceControl = true;
                     mainWindowViewModel.ShowLoginControl = false;
                     mainWindowViewModel.ShowRegisterControl = false;
-                }
-                    
+                    mainWindowViewModel.ShowUserListControl = false;
+                }                    
             }
         }
         #endregion

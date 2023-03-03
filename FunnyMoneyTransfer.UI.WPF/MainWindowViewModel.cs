@@ -1,8 +1,5 @@
 ﻿using FunnyMoneyTransfer.UI.WPF.User;
-using Microsoft.Win32;
-using System;
 using System.ComponentModel;
-using System.Windows;
 using System.Windows.Input;
 
 namespace FunnyMoneyTransfer.UI.WPF
@@ -18,6 +15,7 @@ namespace FunnyMoneyTransfer.UI.WPF
             this.ShowBalanceControl = false;
             this.ShowLoginControl = false;
             this.ShowRegisterControl = false;
+            this.ShowUserListControl = false;
         }
         #endregion
 
@@ -26,12 +24,14 @@ namespace FunnyMoneyTransfer.UI.WPF
         private RelayCommand _navToLoginCommand = null!;
         private RelayCommand _navToRegisterCommand = null!;
         private RelayCommand _navToLogoutCommand = null!;
+        private ICommand _navToUsersListCommand = null!;
         private bool _showLoginAndRegisterMenuItems;
         private bool _showNonLoginAndRegisterMenuItems;
         private bool _showBalanceControl;
         private bool _showIntro;
         private bool _showLoginControl;
-        private bool _showRegisterControl;        
+        private bool _showRegisterControl;
+        private bool _showUserListControl;
         #endregion
 
         #region events
@@ -51,10 +51,6 @@ namespace FunnyMoneyTransfer.UI.WPF
                 }
             }
         }
-
-        //public bool IsUserLoggedIn => !this.IsNoUserLoggedIn;
-
-        //public bool IsNoUserLoggedIn => !(this.LoggedInUser is Data.User);
 
         public bool ShowLoginAndRegisterMenuItems
         {
@@ -78,9 +74,10 @@ namespace FunnyMoneyTransfer.UI.WPF
                 {
                     _showNonLoginAndRegisterMenuItems = value;
                     this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(ShowNonLoginAndRegisterMenuItems)));
-                }                
+                }
             }
         }
+
         public bool ShowBalanceControl
         {
             get => _showBalanceControl;
@@ -93,6 +90,7 @@ namespace FunnyMoneyTransfer.UI.WPF
                 }
             }
         }
+
         public bool ShowIntro
         {
             get => _showIntro;
@@ -103,9 +101,10 @@ namespace FunnyMoneyTransfer.UI.WPF
                     _showIntro = value;
                     this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(ShowIntro)));
                 }
-                
+
             }
         }
+
         public bool ShowLoginControl
         {
             get => _showLoginControl;
@@ -119,6 +118,21 @@ namespace FunnyMoneyTransfer.UI.WPF
                 _showLoginControl = value;
             }
         }
+
+        public bool ShowUserListControl
+        {
+            get => _showUserListControl;
+            set
+            {
+                if (value != _showUserListControl)
+                {
+                    _showUserListControl = value;
+                    this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(ShowUserListControl)));
+                }
+                _showUserListControl = value;
+            }
+        }
+
         public bool ShowRegisterControl
         {
             get => _showRegisterControl;
@@ -132,6 +146,7 @@ namespace FunnyMoneyTransfer.UI.WPF
                 _showRegisterControl = value;
             }
         }
+
         public ICommand NavToRegisterCommand
         {
             get
@@ -144,6 +159,7 @@ namespace FunnyMoneyTransfer.UI.WPF
                 return _navToRegisterCommand;
             }
         }
+
         public ICommand NavToLoginCommand
         {
             get
@@ -156,6 +172,7 @@ namespace FunnyMoneyTransfer.UI.WPF
                 return _navToLoginCommand;
             }
         }
+
         public ICommand NavToLogoutCommand
         {
             get
@@ -168,6 +185,20 @@ namespace FunnyMoneyTransfer.UI.WPF
                 return _navToLogoutCommand;
             }
         }
+
+        public ICommand NavToUsersListCommand
+        {
+            get
+            {
+                if (_navToUsersListCommand == null)
+                {
+                    _navToUsersListCommand = new RelayCommand(param => this.NavToUsersList(),
+                        param => this.CanNavigate);
+                }
+                return _navToUsersListCommand;
+            }
+        }
+
         public bool CanNavigate => true;
         #endregion
 
@@ -180,8 +211,9 @@ namespace FunnyMoneyTransfer.UI.WPF
             this.ShowBalanceControl = false;
             this.ShowLoginControl = false;
             this.ShowRegisterControl = true;
+            this.ShowUserListControl = false;
         } //TODO: Get the nav commands combined into one command with a param for destination
-        
+
         private void NavToLogin()
         {
             this.ShowLoginAndRegisterMenuItems = !(this.LoggedInUser is Data.User);
@@ -190,6 +222,7 @@ namespace FunnyMoneyTransfer.UI.WPF
             this.ShowBalanceControl = false;
             this.ShowLoginControl = true;
             this.ShowRegisterControl = false;
+            this.ShowUserListControl = false;
         }
 
         private void NavToLogout()
@@ -201,6 +234,7 @@ namespace FunnyMoneyTransfer.UI.WPF
             this.ShowBalanceControl = false;
             this.ShowLoginControl = false;
             this.ShowRegisterControl = false;
+            this.ShowUserListControl = false;
 
             MainWindow m = (MainWindow)App.Current.MainWindow;
             if (m != null)
@@ -210,6 +244,17 @@ namespace FunnyMoneyTransfer.UI.WPF
                 m.registerUserView.tbUsername.Text = null;
                 m.registerUserView.pbPassword.Password = null;
             }
+        }
+
+        private void NavToUsersList()
+        {
+            this.ShowLoginAndRegisterMenuItems = !(this.LoggedInUser is Data.User);
+            this.ShowNonLoginAndRegisterMenuItems = !ShowLoginAndRegisterMenuItems;
+            this.ShowIntro = false;
+            this.ShowBalanceControl = true;
+            this.ShowLoginControl = false;
+            this.ShowRegisterControl = false;
+            this.ShowUserListControl = true;
         }
         #endregion
     }
