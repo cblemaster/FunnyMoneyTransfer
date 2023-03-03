@@ -1,4 +1,4 @@
-﻿namespace FunnyMoneyTransfer.Data;
+﻿namespace FunnyMoneyTransfer.Data.ExtendedModels;
 
 public enum TransferStatusEnum
 {

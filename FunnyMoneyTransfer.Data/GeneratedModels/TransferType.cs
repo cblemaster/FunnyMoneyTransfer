@@ -1,6 +1,6 @@
-﻿namespace FunnyMoneyTransfer.Data;
+﻿namespace FunnyMoneyTransfer.Data.GeneratedModels;
 
-public partial class TransferStatus
+public partial class TransferType
 {
     public int Id { get; set; }
 

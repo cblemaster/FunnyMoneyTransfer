@@ -1,4 +1,6 @@
-﻿namespace FunnyMoneyTransfer.Data
+﻿using FunnyMoneyTransfer.Data.ExtendedModels;
+
+namespace FunnyMoneyTransfer.Data
 {
     public partial class Transfer
     {
