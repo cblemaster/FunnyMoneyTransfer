@@ -19,6 +19,7 @@ namespace FunnyMoneyTransfer.Data
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Username).IsRequired();
+                entity.Ignore(e => e.ShowSendAndRequestButtons);
             });
             modelBuilder.Entity<TransferType>(entity => entity.HasKey(e => e.Id));
             modelBuilder.Entity<TransferStatus>(entity => entity.HasKey(e => e.Id));
