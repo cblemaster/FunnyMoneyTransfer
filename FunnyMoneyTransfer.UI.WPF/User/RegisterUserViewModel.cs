@@ -172,7 +172,7 @@ namespace FunnyMoneyTransfer.UI.WPF.User
                 if (mainWindowViewModel != null)
                 {
                     mainWindowViewModel.LoggedInUser = this.User;
-                    
+
                     mainWindowViewModel.ShowLoginAndRegisterMenuItems = false;
                     mainWindowViewModel.ShowNonLoginAndRegisterMenuItems = true;
                     mainWindowViewModel.ShowIntro = false;
@@ -180,7 +180,7 @@ namespace FunnyMoneyTransfer.UI.WPF.User
                     mainWindowViewModel.ShowLoginControl = false;
                     mainWindowViewModel.ShowRegisterControl = false;
                     mainWindowViewModel.ShowUserListControl = false;
-                }                    
+                }
             }
         }
         #endregion

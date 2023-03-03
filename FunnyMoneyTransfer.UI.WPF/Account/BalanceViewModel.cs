@@ -22,7 +22,7 @@ namespace FunnyMoneyTransfer.UI.WPF.Account
                                         .FirstOrDefault(a => a.UserId == mainContext.LoggedInUser.Id)!;
                 if (a != null)
                 {
-                    this.CalculatedBalance = a.CalculatedBalance();                    
+                    this.CalculatedBalance = a.CalculatedBalance();
                 }
             }
             this.AsOfDate = DateTime.Now.ToString();

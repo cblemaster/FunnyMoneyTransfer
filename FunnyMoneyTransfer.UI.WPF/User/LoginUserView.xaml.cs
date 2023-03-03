@@ -13,7 +13,7 @@ namespace FunnyMoneyTransfer.UI.WPF.User
         private void pbPassword_PasswordChanged(object sender, RoutedEventArgs e)
         {
             if (this.DataContext != null)
-                ((dynamic)this.DataContext).SecurePassword = ((PasswordBox)sender).SecurePassword;
+                ((LoginUserViewModel)this.DataContext).SecurePassword = ((PasswordBox)sender).SecurePassword;
         }
     }
 }

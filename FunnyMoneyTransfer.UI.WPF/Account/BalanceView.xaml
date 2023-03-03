@@ -9,16 +9,14 @@
              d:DesignWidth="800">
     <UserControl.DataContext>
         <local:BalanceViewModel />
-    </UserControl.DataContext>
-    <UserControl.Resources>
-        <BooleanToVisibilityConverter x:Key="VisibleIfTrueConverter" />
-    </UserControl.Resources>
+    </UserControl.DataContext>    
     <Grid>
         <Border Style="{StaticResource borderStyle}">
             <StackPanel Style="{StaticResource verticalStackPanelStyle}">
                 <TextBlock Style="{StaticResource headerTextBlockStyle}"
                            x:Name="tbHeader"
-                           Text="Your Current Balance" TextWrapping="WrapWithOverflow" />
+                           Text="Your Current Balance"
+                           TextWrapping="WrapWithOverflow" />
                 <TextBlock Style="{StaticResource balanceTextBlockStyle}"
                            x:Name="tbBalance"
                            Grid.Row="1"

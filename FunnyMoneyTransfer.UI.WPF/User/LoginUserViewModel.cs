@@ -48,7 +48,7 @@ namespace FunnyMoneyTransfer.UI.WPF.User
                 }
             }
         }
-        
+
         public bool IsValid
         {
             get => _isValid;
@@ -147,7 +147,7 @@ namespace FunnyMoneyTransfer.UI.WPF.User
                 this.User = _db.Users.FirstOrDefault(u => u.Username == this.User.Username)!; //usernames are unique, so ok to search by username
                 if (!(PasswordHasher.IsPasswordValid(this.SecurePassword.ToString()!, this.User.PasswordHash)))
                     this.User = null!;
-                
+
                 MainWindowViewModel mainWindowViewModel = (MainWindowViewModel)App.Current.MainWindow.DataContext;
                 if (mainWindowViewModel != null)
                 {
@@ -160,7 +160,7 @@ namespace FunnyMoneyTransfer.UI.WPF.User
                     mainWindowViewModel.ShowLoginControl = false;
                     mainWindowViewModel.ShowRegisterControl = false;
                     mainWindowViewModel.ShowUserListControl = false;
-                }                    
+                }
             }
         }
         #endregion

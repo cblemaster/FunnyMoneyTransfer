@@ -1,6 +1,4 @@
 ﻿using System.Windows.Controls;
-using System.Collections;
-using System.Linq;
 
 namespace FunnyMoneyTransfer.UI.WPF.User
 {
