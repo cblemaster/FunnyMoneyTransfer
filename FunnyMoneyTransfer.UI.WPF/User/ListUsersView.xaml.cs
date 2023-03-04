@@ -18,11 +18,9 @@ namespace FunnyMoneyTransfer.UI.WPF.User
             {
                 foreach (Data.User user in vm.Users)
                 {
-                    if (user.Id == selectedUser.Id && user.Id != mwvm.LoggedInUser.Id)
-                        user.ShowSendAndRequestButtons = true;
-                    else
-                        user.ShowSendAndRequestButtons = false;
+                    user.ShowSendAndRequestButtons = user.Id == selectedUser.Id && user.Id != mwvm.LoggedInUser.Id;
                 }
+                this.lvUsers.Items.Refresh();
             }
         }
     }

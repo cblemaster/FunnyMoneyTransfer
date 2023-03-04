@@ -8,10 +8,8 @@ namespace FunnyMoneyTransfer.UI.WPF.User
     public class ListUsersViewModel : INotifyPropertyChanged
     {
         #region ctor
-        public ListUsersViewModel()
-        {
+        public ListUsersViewModel() =>
             this.Users = new ObservableCollection<Data.User>(_db.Users.OrderBy(u => u.Username).ToList());
-        }
         #endregion
 
         #region fields
