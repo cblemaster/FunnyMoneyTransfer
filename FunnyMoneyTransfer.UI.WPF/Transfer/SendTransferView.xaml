@@ -10,74 +10,10 @@
     <UserControl.DataContext>
         <local:SendTransferViewModel />
     </UserControl.DataContext>
-    <UserControl.Resources>
-        <Style x:Key="borderStyle"
-               TargetType="Border">
-            <Setter Property="BorderBrush"
-                    Value="DarkBlue" />
-            <Setter Property="BorderThickness"
-                    Value="3" />
-            <Setter Property="HorizontalAlignment"
-                    Value="Center" />
-            <Setter Property="VerticalAlignment"
-                    Value="Center" />
-        </Style>
-        <Style x:Key="gridStyle"
-               TargetType="Grid">
-            <Setter Property="Background"
-                    Value="White" />
-        </Style>
-        <Style x:Key="textBlockStyle"
-               TargetType="TextBlock">
-            <Setter Property="TextAlignment"
-                    Value="Center" />
-            <Setter Property="VerticalAlignment"
-                    Value="Center" />
-            <Setter Property="FontWeight"
-                    Value="Heavy" />
-            <Setter Property="FontSize"
-                    Value="30" />
-            <Setter Property="FontFamily"
-                    Value="Calibri" />
-            <Setter Property="FontStretch"
-                    Value="SemiCondensed" />
-            <Setter Property="Foreground"
-                    Value="DarkBlue" />
-            <Setter Property="Margin"
-                    Value="5 5 5 5" />
-        </Style>
-        <Style x:Key="labelStyle"
-               TargetType="Label">
-            <Setter Property="FontWeight"
-                    Value="Medium" />
-            <Setter Property="FontSize"
-                    Value="15" />
-            <Setter Property="FontStretch"
-                    Value="SemiCondensed" />
-            <Setter Property="FontFamily"
-                    Value="Calibri" />
-            <Setter Property="Foreground"
-                    Value="DarkBlue" />
-        </Style>
-        <Style x:Key="textBoxStyle"
-               TargetType="TextBox">
-            <Setter Property="HorizontalAlignment"
-                    Value="Left" />
-            <Setter Property="VerticalAlignment"
-                    Value="Center" />
-            <Setter Property="Margin"
-                    Value="5 0 5 0" />
-            <Setter Property="Width"
-                    Value="120" />
-            <Setter Property="Foreground"
-                    Value="DarkBlue" />
-            <Setter Property="BorderBrush"
-                    Value="DarkBlue" />
-        </Style>
-    </UserControl.Resources>
+    
     <Grid>
         <Border Style="{StaticResource borderStyle}">
-            <Grid Style="{StaticResource gridStyle}">
+            <Grid Style="{StaticResource gridWhiteStyle}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="3*" />
                     <ColumnDefinition Width="7*" />
@@ -88,7 +24,7 @@
                 </Grid.RowDefinitions>
                 <TextBlock Grid.ColumnSpan="2"
                            Text="Send Transfer"
-                           Style="{StaticResource textBlockStyle}" />
+                           Style="{StaticResource headerTextBlockStyle}" />
                 <Label Grid.Row="1"
                        Content="Amount to Send:"
                        Style="{StaticResource labelStyle}" />

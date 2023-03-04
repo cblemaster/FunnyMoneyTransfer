@@ -15,45 +15,7 @@
     </Window.DataContext>
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="VisibleIfTrueConverter" />
-        <Style x:Key="menuStyle"
-               TargetType="Menu">
-            <Setter Property="FlowDirection"
-                    Value="LeftToRight" />
-            <Setter Property="Background"
-                    Value="White" />
-            <Setter Property="VerticalAlignment"
-                    Value="Center" />
-            <Setter Property="BorderBrush"
-                    Value="DarkBlue" />
-            <Setter Property="BorderThickness"
-                    Value="1" />
-        </Style>
-        <Style x:Key="menuItemStyle"
-               TargetType="MenuItem">
-            <Setter Property="FontFamily"
-                    Value="Calibri" />
-            <Setter Property="Foreground"
-                    Value="DarkBlue" />
-            <Setter Property="FontSize"
-                    Value="15" />
-            <Setter Property="FontWeight"
-                    Value="Normal" />
-        </Style>
-        <Style x:Key="textBlockStyle"
-               TargetType="TextBlock">
-            <Setter Property="HorizontalAlignment"
-                    Value="Center" />
-            <Setter Property="VerticalAlignment"
-                    Value="Center" />
-            <Setter Property="FontSize"
-                    Value="40" />
-            <Setter Property="FontWeight"
-                    Value="Bold" />
-            <Setter Property="FontFamily"
-                    Value="Calibri" />
-            <Setter Property="Foreground"
-                    Value="DarkBlue" />
-        </Style>
+        
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -66,14 +28,12 @@
         </Grid.RowDefinitions>
         <Menu Grid.ColumnSpan="2"
               Style="{StaticResource menuStyle}">
-            <MenuItem Style="{StaticResource menuItemStyle}"
+            <MenuItem Style="{StaticResource boldMenuItemStyle}"
                       Header="Register"
-                      FontWeight="UltraBold"
                       Visibility="{Binding ShowLoginAndRegisterMenuItems, Converter={StaticResource VisibleIfTrueConverter}}"
                       Command="{Binding NavToRegisterCommand}" />
-            <MenuItem Style="{StaticResource menuItemStyle}"
+            <MenuItem Style="{StaticResource boldMenuItemStyle}"
                       Header="Login"
-                      FontWeight="UltraBold"
                       Visibility="{Binding ShowLoginAndRegisterMenuItems, Converter={StaticResource VisibleIfTrueConverter}}"
                       Command="{Binding NavToLoginCommand}" />
             <MenuItem Style="{StaticResource menuItemStyle}"
@@ -106,7 +66,7 @@
         <Grid Grid.Row="1"
               Grid.ColumnSpan="2">
             <TextBlock x:Name="tbIntro"
-                       Style="{StaticResource textBlockStyle}"
+                       Style="{StaticResource headerTextBlockStyle}"
                        Text="Hello! Please Register or Login"
                        Visibility="{Binding ShowIntro, Converter={StaticResource VisibleIfTrueConverter}}" />
         </Grid>

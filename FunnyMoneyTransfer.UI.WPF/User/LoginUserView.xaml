@@ -15,7 +15,7 @@
     </UserControl.Resources>
     <Grid>
         <Border Style="{StaticResource borderStyle}">
-            <Grid Style="{StaticResource gridStyle}">
+            <Grid Style="{StaticResource gridWhiteStyle}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="3*" />
                     <ColumnDefinition Width="7*" />
@@ -27,7 +27,7 @@
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
-                <TextBlock Style="{StaticResource textBlockStyle}"
+                <TextBlock Style="{StaticResource headerTextBlockStyle}"
                            x:Name="tbHeader"
                            Grid.ColumnSpan="2"
                            Text="Login" />
@@ -37,7 +37,7 @@
                 <Label Style="{StaticResource labelStyle}"
                        Grid.Row="3"
                        Content="Password:" />
-                <StackPanel Style="{StaticResource stackPanelStyle}"
+                <StackPanel Style="{StaticResource horizontalStackPanelStyle}"
                             Grid.Row="2"
                             Grid.Column="1">
                     <TextBox Style="{StaticResource textBoxStyle}"
@@ -48,7 +48,7 @@
                            Visibility="{Binding ShowValidationErrorInUI, Converter={StaticResource VisibleIfTrueConverter}, Mode=OneWay}"
                            ToolTip="{Binding ValidationErrorMessage, Mode=OneWay}" />
                 </StackPanel>
-                <StackPanel Style="{StaticResource stackPanelStyle}"
+                <StackPanel Style="{StaticResource horizontalNoAlignmentStackPanelStyle}"
                             Grid.Row="3"
                             Grid.Column="1">
                     <PasswordBox Style="{StaticResource passwordBoxStyle}"
@@ -59,7 +59,7 @@
                            x:Name="lblPasswordValidation"
                            Visibility="Collapsed" />
                 </StackPanel>
-                <Button Style="{StaticResource buttonStyle}"
+                <Button Style="{StaticResource loginAndRegisterUserButtonStyle}"
                         x:Name="btnLogin"
                         Grid.Column="1"
                         Grid.Row="4"
