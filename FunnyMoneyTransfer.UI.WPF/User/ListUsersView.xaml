@@ -11,12 +11,13 @@
         <local:ListUsersViewModel />
     </UserControl.DataContext>
     <Grid>
-        <Border Style="{StaticResource listUsersViewBorderStyle}">
             <Grid Style="{StaticResource gridWhiteStyle}">
-                <ListView x:Name="lvUsers"
+                <ListView x:Name="lvUsers" Margin="0 0 0 0" Padding="0 0 0 0"
                           ItemsSource="{Binding Users}"
                           SelectionMode="Single"
-                          SelectionChanged="lvUsers_SelectionChanged">
+                          SelectionChanged="lvUsers_SelectionChanged"
+                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                          BorderBrush="Transparent">
                     <ListView.View>
                         <GridView>
                             <GridView.Columns>
@@ -66,6 +67,5 @@
                     </ListView.View>
                 </ListView>
             </Grid>
-        </Border>
     </Grid>
 </UserControl>

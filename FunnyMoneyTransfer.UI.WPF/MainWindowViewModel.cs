@@ -9,29 +9,20 @@ namespace FunnyMoneyTransfer.UI.WPF
         #region ctor
         public MainWindowViewModel()
         {
-            this.ShowLoginAndRegisterMenuItems = true;
-            this.ShowNonLoginAndRegisterMenuItems = false;
             this.ShowIntro = true;
-            this.ShowBalanceControl = false;
-            this.ShowLoginControl = false;
-            this.ShowRegisterControl = false;
-            this.ShowUserListControl = false;
         }
         #endregion
 
         #region fields
         private Data.User _loggedInUser = null!;
+        private bool _isUserLoggedIn;
+        private bool _isNoUserLoggedIn;
         private RelayCommand _navToLoginCommand = null!;
         private RelayCommand _navToRegisterCommand = null!;
         private RelayCommand _navToLogoutCommand = null!;
-        private ICommand _navToUsersListCommand = null!;
-        private bool _showLoginAndRegisterMenuItems;
-        private bool _showNonLoginAndRegisterMenuItems;
-        private bool _showBalanceControl;
-        private bool _showIntro;
         private bool _showLoginControl;
         private bool _showRegisterControl;
-        private bool _showUserListControl;
+        private bool _showIntro;
         #endregion
 
         #region events
@@ -48,103 +39,20 @@ namespace FunnyMoneyTransfer.UI.WPF
                 {
                     _loggedInUser = value;
                     this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(LoggedInUser)));
+                    this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(IsUserLoggedIn)));
+                    this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(IsNoUserLoggedIn)));
                 }
             }
         }
 
-        public bool ShowLoginAndRegisterMenuItems
+        public bool IsUserLoggedIn
         {
-            get => _showLoginAndRegisterMenuItems;
-            set
-            {
-                if (value != _showLoginAndRegisterMenuItems)
-                {
-                    _showLoginAndRegisterMenuItems = value;
-                    this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(ShowLoginAndRegisterMenuItems)));
-                }
-            }
+            get => this.LoggedInUser != null && this.LoggedInUser is Data.User;
         }
 
-        public bool ShowNonLoginAndRegisterMenuItems
+        public bool IsNoUserLoggedIn
         {
-            get => _showNonLoginAndRegisterMenuItems;
-            set
-            {
-                if (value != _showNonLoginAndRegisterMenuItems)
-                {
-                    _showNonLoginAndRegisterMenuItems = value;
-                    this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(ShowNonLoginAndRegisterMenuItems)));
-                }
-            }
-        }
-
-        public bool ShowBalanceControl
-        {
-            get => _showBalanceControl;
-            set
-            {
-                if (value != _showBalanceControl)
-                {
-                    _showBalanceControl = value;
-                    this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(ShowBalanceControl)));
-                }
-            }
-        }
-
-        public bool ShowIntro
-        {
-            get => _showIntro;
-            set
-            {
-                if (value != _showIntro)
-                {
-                    _showIntro = value;
-                    this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(ShowIntro)));
-                }
-
-            }
-        }
-
-        public bool ShowLoginControl
-        {
-            get => _showLoginControl;
-            set
-            {
-                if (value != _showLoginControl)
-                {
-                    _showLoginControl = value;
-                    this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(ShowLoginControl)));
-                }
-                _showLoginControl = value;
-            }
-        }
-
-        public bool ShowUserListControl
-        {
-            get => _showUserListControl;
-            set
-            {
-                if (value != _showUserListControl)
-                {
-                    _showUserListControl = value;
-                    this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(ShowUserListControl)));
-                }
-                _showUserListControl = value;
-            }
-        }
-
-        public bool ShowRegisterControl
-        {
-            get => _showRegisterControl;
-            set
-            {
-                if (value != _showRegisterControl)
-                {
-                    _showRegisterControl = value;
-                    this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(ShowRegisterControl)));
-                }
-                _showRegisterControl = value;
-            }
+            get => this.LoggedInUser == null;            
         }
 
         public ICommand NavToRegisterCommand
@@ -186,55 +94,70 @@ namespace FunnyMoneyTransfer.UI.WPF
             }
         }
 
-        public ICommand NavToUsersListCommand
+        public bool CanNavigate => true;
+
+        public bool ShowLoginControl
         {
-            get
+            get => _showLoginControl;
+            set
             {
-                if (_navToUsersListCommand == null)
+                if (value != _showLoginControl)
                 {
-                    _navToUsersListCommand = new RelayCommand(param => this.NavToUsersList(),
-                        param => this.CanNavigate);
+                    _showLoginControl = value;
+                    this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(ShowLoginControl)));
                 }
-                return _navToUsersListCommand;
             }
         }
 
-        public bool CanNavigate => true;
+        public bool ShowRegisterControl
+        {
+            get => _showRegisterControl;
+            set
+            {
+                if (value != _showRegisterControl)
+                {
+                    _showRegisterControl = value;
+                    this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(ShowRegisterControl)));
+                }
+            }
+        }
+
+        public bool ShowIntro
+        {
+            get => _showIntro;
+            set
+            {
+                if (value != _showIntro)
+                {
+                    _showIntro = value;
+                    this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(ShowIntro)));
+                }
+            }
+        }
+
         #endregion
 
         #region methods
         private void NavToRegister()
         {
-            this.ShowLoginAndRegisterMenuItems = !(this.LoggedInUser is Data.User);
-            this.ShowNonLoginAndRegisterMenuItems = !ShowLoginAndRegisterMenuItems;
-            this.ShowIntro = false;
-            this.ShowBalanceControl = false;
             this.ShowLoginControl = false;
             this.ShowRegisterControl = true;
-            this.ShowUserListControl = false;
+            this.ShowIntro = false;
         } //TODO: Get the nav commands combined into one command with a param for destination
 
         private void NavToLogin()
         {
-            this.ShowLoginAndRegisterMenuItems = !(this.LoggedInUser is Data.User);
-            this.ShowNonLoginAndRegisterMenuItems = !ShowLoginAndRegisterMenuItems;
-            this.ShowIntro = false;
-            this.ShowBalanceControl = false;
             this.ShowLoginControl = true;
             this.ShowRegisterControl = false;
-            this.ShowUserListControl = false;
+            this.ShowIntro = false;
         }
 
         private void NavToLogout()
         {
             this.LoggedInUser = null!;
-            this.ShowLoginAndRegisterMenuItems = !(this.LoggedInUser is Data.User);
-            this.ShowNonLoginAndRegisterMenuItems = !ShowLoginAndRegisterMenuItems;
-            this.ShowIntro = true;
-            this.ShowBalanceControl = false;
             this.ShowLoginControl = false;
             this.ShowRegisterControl = false;
-            this.ShowUserListControl = false;
+            this.ShowIntro = true;
 
             MainWindow m = (MainWindow)App.Current.MainWindow;
             if (m != null)
@@ -244,17 +167,6 @@ namespace FunnyMoneyTransfer.UI.WPF
                 m.registerUserView.tbUsername.Text = null;
                 m.registerUserView.pbPassword.Password = null;
             }
-        }
-
-        private void NavToUsersList()
-        {
-            this.ShowLoginAndRegisterMenuItems = !(this.LoggedInUser is Data.User);
-            this.ShowNonLoginAndRegisterMenuItems = !ShowLoginAndRegisterMenuItems;
-            this.ShowIntro = false;
-            this.ShowBalanceControl = true;
-            this.ShowLoginControl = false;
-            this.ShowRegisterControl = false;
-            this.ShowUserListControl = true;
         }
         #endregion
     }

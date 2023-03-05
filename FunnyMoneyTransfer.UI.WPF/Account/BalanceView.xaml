@@ -11,7 +11,7 @@
         <local:BalanceViewModel />
     </UserControl.DataContext>    
     <Grid>
-        <Border Style="{StaticResource borderStyle}">
+        
             <Grid Style="{StaticResource gridWhiteStyle}">
                 <StackPanel Style="{StaticResource verticalStackPanelStyle}">
                     <TextBlock Style="{StaticResource headerTextBlockStyle}"
@@ -32,6 +32,5 @@
                     </StackPanel>
                 </StackPanel>
             </Grid>
-        </Border>
     </Grid>
 </UserControl>

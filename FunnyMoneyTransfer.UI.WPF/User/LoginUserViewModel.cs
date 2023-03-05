@@ -175,47 +175,37 @@ namespace FunnyMoneyTransfer.UI.WPF.User
                 this.ShowPasswordValidationErrorInUI = true;
                 this.PasswordValidationErrorMessage = PASSWORD_MAX_LENGTH_ERROR_MESSAGE;
             }
-            else if (!(PasswordHasher.IsPasswordValid(this.SecurePassword.ToString()!, this.User.PasswordHash)))
-            {
-                this.IsValid = false;
-                this.ShowPasswordValidationErrorInUI = true;
-                this.PasswordValidationErrorMessage = PASSWORD_INCORRECT_ERROR_MESSAGE;
-            }
             else
             {
                 this.IsValid = true;
                 this.ShowUsernameValidationErrorInUI = false;
                 this.UsernameValidationErrorMessage = null;
                 this.ShowPasswordValidationErrorInUI = false;
-                this.PasswordValidationErrorMessage = null; ;
+                this.PasswordValidationErrorMessage = null;
             }
         }
 
         public void Login()
         {
             this.Validate();
-            if (this.IsValid)
-            {
-                this.User = _db.Users.Include(u => u.Account).FirstOrDefault(u => u.Username == this.User.Username)!; //usernames are unique, so ok to search by username
+            this.User = _db.Users.Include(u => u.Account).FirstOrDefault(u => u.Username == this.User.Username)!; //usernames are unique, so ok to search by username
 
+            if (this.IsValid && PasswordHasher.IsPasswordValid(this.SecurePassword.ToString()!, this.User.PasswordHash))
+            {               
                 MainWindowViewModel mainWindowViewModel = (MainWindowViewModel)App.Current.MainWindow.DataContext;
                 if (mainWindowViewModel != null)
                 {
                     mainWindowViewModel.LoggedInUser = this.User;
-
-                    mainWindowViewModel.ShowLoginAndRegisterMenuItems = false;
-                    mainWindowViewModel.ShowNonLoginAndRegisterMenuItems = true;
-                    mainWindowViewModel.ShowIntro = false;
-                    mainWindowViewModel.ShowBalanceControl = true;
                     mainWindowViewModel.ShowLoginControl = false;
                     mainWindowViewModel.ShowRegisterControl = false;
-                    mainWindowViewModel.ShowUserListControl = false;
+                    mainWindowViewModel.ShowIntro = false;
+
+                    bool a = mainWindowViewModel.IsNoUserLoggedIn;
+                    bool b = mainWindowViewModel.IsUserLoggedIn;
                 }
             }
             else
-            {
                 this.User = null!;
-            }
         }
         #endregion
     }

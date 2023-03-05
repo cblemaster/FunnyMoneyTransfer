@@ -15,65 +15,103 @@
     </Window.DataContext>
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="VisibleIfTrueConverter" />
-        
     </Window.Resources>
-    <Grid>
+    <Grid x:Name="grdMain">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="4*" />
-            <ColumnDefinition Width="6*" />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
             <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
-        <Menu Grid.ColumnSpan="2"
+        <Menu Grid.ColumnSpan="4"
               Style="{StaticResource menuStyle}">
             <MenuItem Style="{StaticResource boldMenuItemStyle}"
                       Header="Register"
-                      Visibility="{Binding ShowLoginAndRegisterMenuItems, Converter={StaticResource VisibleIfTrueConverter}}"
+                      Visibility="{Binding IsNoUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}"
                       Command="{Binding NavToRegisterCommand}" />
             <MenuItem Style="{StaticResource boldMenuItemStyle}"
                       Header="Login"
-                      Visibility="{Binding ShowLoginAndRegisterMenuItems, Converter={StaticResource VisibleIfTrueConverter}}"
+                      Visibility="{Binding IsNoUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}"
                       Command="{Binding NavToLoginCommand}" />
             <MenuItem Style="{StaticResource menuItemStyle}"
                       Header="Log Out"
-                      Visibility="{Binding ShowNonLoginAndRegisterMenuItems, Converter={StaticResource VisibleIfTrueConverter}}"
+                      Visibility="{Binding IsUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}"
                       Command="{Binding NavToLogoutCommand}" />
-            <MenuItem Style="{StaticResource menuItemStyle}"
-                      Header="Transfers"
-                      Visibility="{Binding ShowNonLoginAndRegisterMenuItems, Converter={StaticResource VisibleIfTrueConverter}}" />
-            <MenuItem Style="{StaticResource menuItemStyle}"
-                      Header="Users"
-                      Visibility="{Binding ShowNonLoginAndRegisterMenuItems, Converter={StaticResource VisibleIfTrueConverter}}"
-                      Command="{Binding NavToUsersListCommand}"/>
         </Menu>
+        <Border Style="{StaticResource thinBorderStyle}"
+                Grid.Row="1">
+            <Grid x:Name="grdLoggedInUserView"
+                  Grid.Row="1"
+                  Visibility="{Binding IsUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}"></Grid>
+        </Border>
+        <Border Style="{StaticResource thinBorderStyle}"
+                Grid.Row="2">
+            <Grid x:Name="grdBalanceView"
+                  Grid.Row="2"
+                  Margin="5 0 0 0"
+                  Visibility="{Binding IsUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}">
+                <account:BalanceView x:Name="balanceView"
+                                     VerticalAlignment="Stretch"
+                                     HorizontalAlignment="Stretch" />
+            </Grid>
+        </Border>
+        <Border Style="{StaticResource thinBorderStyle}"
+                Grid.Row="3"
+                Grid.RowSpan="2">
+            <Grid x:Name="grdUsersView"
+                  Grid.Row="3"
+                  Grid.RowSpan="2"
+                  Visibility="{Binding IsUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}">
+                <user:ListUsersView x:Name="listUsersView" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+            </Grid>
+        </Border>
+        <Border Style="{StaticResource thinBorderStyle}"
+                Grid.Column="1"
+                Grid.Row="1"
+                Grid.RowSpan="4"
+                Grid.ColumnSpan="2">
+            <Grid x:Name="grdTransferListView"
+                  Grid.Column="1"
+                  Grid.Row="1"
+                  Grid.ColumnSpan="2"
+                  Grid.RowSpan="4"
+                  Visibility="{Binding IsUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}"></Grid>
+        </Border>
+        <Border Style="{StaticResource thinBorderStyle}"
+                Grid.Column="3"
+                Grid.Row="1"
+                Grid.RowSpan="4">
+            <Grid x:Name="grdTransferDetails"
+                  Grid.Column="3"
+                  Grid.Row="1"
+                  Grid.RowSpan="4"
+                  Visibility="{Binding IsUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}"></Grid>
+        </Border>
+        <!--Login and Register Views-->
         <Grid Grid.Row="1"
-              Visibility="{Binding ShowBalanceControl, Converter={StaticResource VisibleIfTrueConverter}}">
-            <account:BalanceView x:Name="balanceView"
-                                 VerticalAlignment="Stretch"
-                                 HorizontalAlignment="Left" />
-        </Grid>
-        <Grid Grid.Row="1"
-              Grid.Column="1">
+              Grid.RowSpan="4"
+              Grid.ColumnSpan="4">
             <Grid Visibility="{Binding ShowRegisterControl, Converter={StaticResource VisibleIfTrueConverter}}">
                 <user:RegisterUserView x:Name="registerUserView" />
             </Grid>
             <Grid Visibility="{Binding ShowLoginControl, Converter={StaticResource VisibleIfTrueConverter}}">
                 <user:LoginUserView x:Name="loginUserView" />
-            </Grid>           
+            </Grid>
         </Grid>
         <Grid Grid.Row="1"
-              Grid.ColumnSpan="2">
+              Grid.ColumnSpan="4"
+              Grid.RowSpan="4">
             <TextBlock x:Name="tbIntro"
                        Style="{StaticResource headerTextBlockStyle}"
                        Text="Hello! Please Register or Login"
                        Visibility="{Binding ShowIntro, Converter={StaticResource VisibleIfTrueConverter}}" />
-        </Grid>
-        <Grid Grid.Row="1"
-              Grid.Column="1"
-              Visibility="{Binding ShowUserListControl, Converter={StaticResource VisibleIfTrueConverter}}">
-            <user:ListUsersView x:Name="listUsersView" />
         </Grid>
     </Grid>
 </Window>

@@ -74,7 +74,7 @@
                 Value="UltraBold" />
     </Style>
     <!--Borders-->
-    <Style x:Key="borderStyle"
+    <Style x:Key="baseBorderStyle"
            TargetType="Border">
         <Setter Property="BorderBrush"
                 Value="DarkBlue" />
@@ -85,14 +85,15 @@
         <Setter Property="HorizontalAlignment"
                 Value="Center" />
     </Style>
-    <Style x:Key="listUsersViewBorderStyle"
-           TargetType="Border" BasedOn="{StaticResource borderStyle}">
-        <Setter Property="HorizontalAlignment"
-                Value="Stretch" />
-        <Setter Property="VerticalAlignment"
-                Value="Stretch" />
-        
+    <Style x:Key="thinBorderStyle"
+           TargetType="Border"
+           BasedOn="{StaticResource baseBorderStyle}">
+        <Setter Property="BorderThickness"
+                Value="1" />
     </Style>
+    
+        
+  
     <!--StackPanels-->
     <Style x:Key="verticalStackPanelStyle"
            TargetType="StackPanel">

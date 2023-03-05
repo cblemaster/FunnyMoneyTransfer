@@ -14,7 +14,7 @@
         <BooleanToVisibilityConverter x:Key="VisibleIfTrueConverter" />
     </UserControl.Resources>    
     <Grid>
-        <Border Style="{StaticResource borderStyle}">
+        <Border Style="{StaticResource baseBorderStyle}">
             <Grid Style="{StaticResource gridWhiteStyle}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="3*" />
