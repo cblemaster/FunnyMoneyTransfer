@@ -1,4 +1,5 @@
 ﻿using FunnyMoneyTransfer.Data;
+using FunnyMoneyTransfer.UI.WPF.User;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.ComponentModel;
@@ -11,13 +12,13 @@ namespace FunnyMoneyTransfer.UI.WPF.Account
         #region ctor
         public BalanceViewModel()
         {
-            MainWindowViewModel mainContext = (App.Current.MainWindow.DataContext as MainWindowViewModel)!;
+            LoggedInUserViewModel loggedInUserContext = (((((App.Current.MainWindow as MainWindow)!).loggedInUserView).DataContext) as LoggedInUserViewModel)!;
 
-            Data.User loggedInUser = mainContext.LoggedInUser;
+            Data.User loggedInUser = loggedInUserContext.LoggedInUser;
             
-            if (mainContext != null && loggedInUser is Data.User && loggedInUser.Account is Data.Account)
+            if (loggedInUserContext != null && loggedInUser is Data.User && loggedInUser.Account is Data.Account)
             {
-                this.CalculatedBalance = mainContext.LoggedInUser.Account!.CalculatedBalance;                
+                this.CalculatedBalance = loggedInUserContext.LoggedInUser.Account!.CalculatedBalance;                
             }
             this.AsOfDate = DateTime.Now.ToString();
         }

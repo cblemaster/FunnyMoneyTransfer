@@ -14,9 +14,6 @@ namespace FunnyMoneyTransfer.UI.WPF
         #endregion
 
         #region fields
-        private Data.User _loggedInUser = null!;
-        private bool _isUserLoggedIn;
-        private bool _isNoUserLoggedIn;
         private RelayCommand _navToLoginCommand = null!;
         private RelayCommand _navToRegisterCommand = null!;
         private RelayCommand _navToLogoutCommand = null!;
@@ -29,32 +26,7 @@ namespace FunnyMoneyTransfer.UI.WPF
         public event PropertyChangedEventHandler? PropertyChanged = delegate { };
         #endregion
 
-        #region properties       
-        public Data.User LoggedInUser
-        {
-            get => _loggedInUser;
-            set
-            {
-                if (value != _loggedInUser)
-                {
-                    _loggedInUser = value;
-                    this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(LoggedInUser)));
-                    this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(IsUserLoggedIn)));
-                    this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(IsNoUserLoggedIn)));
-                }
-            }
-        }
-
-        public bool IsUserLoggedIn
-        {
-            get => this.LoggedInUser != null && this.LoggedInUser is Data.User;
-        }
-
-        public bool IsNoUserLoggedIn
-        {
-            get => this.LoggedInUser == null;            
-        }
-
+        #region properties
         public ICommand NavToRegisterCommand
         {
             get
@@ -134,7 +106,6 @@ namespace FunnyMoneyTransfer.UI.WPF
                 }
             }
         }
-
         #endregion
 
         #region methods
@@ -154,7 +125,6 @@ namespace FunnyMoneyTransfer.UI.WPF
 
         private void NavToLogout()
         {
-            this.LoggedInUser = null!;
             this.ShowLoginControl = false;
             this.ShowRegisterControl = false;
             this.ShowIntro = true;

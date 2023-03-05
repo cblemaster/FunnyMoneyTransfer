@@ -49,13 +49,16 @@
                 Grid.Row="1">
             <Grid x:Name="grdLoggedInUserView"
                   Grid.Row="1"
-                  Visibility="{Binding IsUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}"></Grid>
+                  Visibility="{Binding IsUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}">
+                <user:LoggedInUserView x:Name="loggedInUserView"
+                    HorizontalAlignment="Stretch"
+                                       VerticalAlignment="Stretch" />
+            </Grid>
         </Border>
         <Border Style="{StaticResource thinBorderStyle}"
                 Grid.Row="2">
             <Grid x:Name="grdBalanceView"
                   Grid.Row="2"
-                  Margin="5 0 0 0"
                   Visibility="{Binding IsUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}">
                 <account:BalanceView x:Name="balanceView"
                                      VerticalAlignment="Stretch"
@@ -69,7 +72,9 @@
                   Grid.Row="3"
                   Grid.RowSpan="2"
                   Visibility="{Binding IsUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}">
-                <user:ListUsersView x:Name="listUsersView" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+                <user:ListUsersView x:Name="listUsersView"
+                                    VerticalAlignment="Stretch"
+                                    HorizontalAlignment="Stretch" />
             </Grid>
         </Border>
         <Border Style="{StaticResource thinBorderStyle}"

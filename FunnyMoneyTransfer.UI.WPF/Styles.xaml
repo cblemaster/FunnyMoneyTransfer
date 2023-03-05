@@ -24,13 +24,25 @@
         <Setter Property="FontSize"
                 Value="30" />
     </Style>
+    <Style x:Key="smallHeaderTextBlockStyle"
+           BasedOn="{StaticResource baseTextBlockStyle}"
+           TargetType="TextBlock">
+        <Setter Property="FontWeight"
+                Value="Bold" />
+        <Setter Property="FontSize"
+                Value="15" />
+        <Setter Property="HorizontalAlignment"
+                Value="Left" />
+        <Setter Property="TextWrapping"
+                Value="WrapWithOverflow" />
+    </Style>
     <Style x:Key="balanceTextBlockStyle"
            TargetType="TextBlock"
            BasedOn="{StaticResource baseTextBlockStyle}">
         <Setter Property="FontWeight"
                 Value="Heavy" />
         <Setter Property="FontSize"
-                Value="25" />
+                Value="15" />
     </Style>
     <Style x:Key="asOfTextBlockStyle"
            TargetType="TextBlock"
@@ -38,7 +50,7 @@
         <Setter Property="FontWeight"
                 Value="Medium" />
         <Setter Property="FontSize"
-                Value="15" />
+                Value="7" />
     </Style>
     <!--Grids-->
     <Style x:Key="gridWhiteStyle"
@@ -90,10 +102,7 @@
            BasedOn="{StaticResource baseBorderStyle}">
         <Setter Property="BorderThickness"
                 Value="1" />
-    </Style>
-    
-        
-  
+    </Style>  
     <!--StackPanels-->
     <Style x:Key="verticalStackPanelStyle"
            TargetType="StackPanel">
@@ -158,10 +167,6 @@
     </Style>
     <Style x:Key="loginAndRegisterUserButtonStyle"
            TargetType="Button" BasedOn="{StaticResource baseButtonStyle}">
-        <!--<Setter Property="BorderThickness"
-                Value="1" />
-        <Setter Property="BorderBrush"
-                Value="DarkBlue" />-->
         <Setter Property="Background"
                 Value="White" />
         <Setter Property="Foreground"
@@ -213,5 +218,13 @@
            TargetType="MenuItem">
         <Setter Property="FontWeight"
                 Value="UltraBold" />
+    </Style>
+    <!--ListView-->
+    <Style x:Key="listViewStyle"
+           TargetType="ListView">
+        <Setter Property="HorizontalAlignment"
+                Value="Stretch" />
+        <Setter Property="VerticalAlignment"
+                Value="Stretch" />
     </Style>
 </ResourceDictionary>

@@ -11,14 +11,14 @@ namespace FunnyMoneyTransfer.UI.WPF.User
 
         private void lvUsers_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ListUsersViewModel vm = (ListUsersViewModel)this.DataContext;
-            MainWindowViewModel mwvm = ((MainWindowViewModel)(App.Current.MainWindow).DataContext);
+            ListUsersViewModel listUsersContext = (ListUsersViewModel)this.DataContext;
+            LoggedInUserViewModel loggedInUserContext = (((((App.Current.MainWindow as MainWindow)!).loggedInUserView).DataContext) as LoggedInUserViewModel)!;
 
             if (e.AddedItems.Count > 0 && e.AddedItems[0] is Data.User selectedUser)
             {
-                foreach (Data.User user in vm.Users)
+                foreach (Data.User user in listUsersContext.Users)
                 {
-                    user.ShowSendAndRequestButtons = user.Id == selectedUser.Id && user.Id != mwvm.LoggedInUser.Id;
+                    user.ShowSendAndRequestButtons = user.Id == selectedUser.Id && user.Id != loggedInUserContext.LoggedInUser.Id;
                 }
                 this.lvUsers.Items.Refresh();
             }

@@ -9,28 +9,24 @@
              d:DesignWidth="800">
     <UserControl.DataContext>
         <local:BalanceViewModel />
-    </UserControl.DataContext>    
+    </UserControl.DataContext>
     <Grid>
-        
-            <Grid Style="{StaticResource gridWhiteStyle}">
-                <StackPanel Style="{StaticResource verticalStackPanelStyle}">
-                    <TextBlock Style="{StaticResource headerTextBlockStyle}"
-                               x:Name="tbHeader"
-                               Text="Your Current Balance"
-                               TextWrapping="WrapWithOverflow" />
-                    <TextBlock Style="{StaticResource balanceTextBlockStyle}"
-                               x:Name="tbBalance"
-                               Grid.Row="1"
-                               Text="{Binding CalculatedBalance, StringFormat=C}" />
-                    <StackPanel Style="{StaticResource horizontalStackPanelStyle}"
-                                Grid.Row="2">
-                        <Label Style="{StaticResource labelStyle}"
-                               Content="As of:" />
-                        <TextBlock Style="{StaticResource asOfTextBlockStyle}"
-                                   x:Name="tbAsOfDate"
-                                   Text="{Binding AsOfDate}" />
-                    </StackPanel>
+        <Grid Style="{StaticResource gridWhiteStyle}">
+            <StackPanel Style="{StaticResource verticalStackPanelStyle}">
+                <TextBlock Style="{StaticResource smallHeaderTextBlockStyle}"
+                           x:Name="tbHeader"
+                           Text="Your current balance:" />
+                <TextBlock Style="{StaticResource balanceTextBlockStyle}"
+                           x:Name="tbBalance"
+                           Text="{Binding CalculatedBalance, StringFormat=C}" />
+                <StackPanel Style="{StaticResource horizontalStackPanelStyle}">
+                    <Label Style="{StaticResource labelStyle}"
+                           Content="As of:" />
+                    <TextBlock Style="{StaticResource asOfTextBlockStyle}"
+                               x:Name="tbAsOfDate"
+                               Text="{Binding AsOfDate}" />
                 </StackPanel>
-            </Grid>
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

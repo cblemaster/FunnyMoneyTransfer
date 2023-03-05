@@ -11,61 +11,60 @@
         <local:ListUsersViewModel />
     </UserControl.DataContext>
     <Grid>
-            <Grid Style="{StaticResource gridWhiteStyle}">
-                <ListView x:Name="lvUsers" Margin="0 0 0 0" Padding="0 0 0 0"
-                          ItemsSource="{Binding Users}"
-                          SelectionMode="Single"
-                          SelectionChanged="lvUsers_SelectionChanged"
-                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                          BorderBrush="Transparent">
-                    <ListView.View>
-                        <GridView>
-                            <GridView.Columns>
-                                <GridViewColumn Header="User Name"
-                                                Width="auto">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Username}"
-                                                       Style="{StaticResource baseTextBlockStyle}" />
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="Actions"
-                                                Width="100">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal" Style="{StaticResource horizontalNoAlignmentStackPanelStyle}"
-                                                        x:Name="spSendRequestButtons">
-                                                <Button x:Name="btnSend"
-                                                        Content="Send"
-                                                        Style="{StaticResource listUsersViewButtonStyle}"/>
-                                                <Button Grid.Column="1"
-                                                        x:Name="btnRequest"
-                                                        Content="Request"
-                                                        Margin="5 0 0 0"
-                                                        Style="{StaticResource listUsersViewButtonStyle}"/>
-                                            </StackPanel>
-                                            <DataTemplate.Triggers>
-                                                <DataTrigger Binding="{Binding ShowSendAndRequestButtons}"
-                                                             Value="True">
-                                                    <Setter Property="Visibility"
-                                                            TargetName="spSendRequestButtons"
-                                                            Value="Visible" />
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding ShowSendAndRequestButtons}"
-                                                             Value="False">
-                                                    <Setter Property="Visibility"
-                                                            TargetName="spSendRequestButtons"
-                                                            Value="Collapsed" />
-                                                </DataTrigger>
-                                            </DataTemplate.Triggers>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                            </GridView.Columns>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-            </Grid>
+        <Grid Style="{StaticResource gridWhiteStyle}">
+            <ListView x:Name="lvUsers"
+                      ItemsSource="{Binding Users}"
+                      SelectionMode="Single"
+                      SelectionChanged="lvUsers_SelectionChanged"
+                      Style="{StaticResource listViewStyle}">
+                <ListView.View>
+                    <GridView>
+                        <GridView.Columns>
+                            <GridViewColumn Header="User Name"
+                                            Width="auto">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Username}"
+                                                   Style="{StaticResource baseTextBlockStyle}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Actions"
+                                            Width="100">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Style="{StaticResource horizontalNoAlignmentStackPanelStyle}"
+                                                    x:Name="spSendRequestButtons">
+                                            <Button x:Name="btnSend"
+                                                    Content="Send"
+                                                    Style="{StaticResource listUsersViewButtonStyle}" />
+                                            <Button Grid.Column="1"
+                                                    x:Name="btnRequest"
+                                                    Content="Request"
+                                                    Margin="5 0 0 0"
+                                                    Style="{StaticResource listUsersViewButtonStyle}" />
+                                        </StackPanel>
+                                        <DataTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding ShowSendAndRequestButtons}"
+                                                         Value="True">
+                                                <Setter Property="Visibility"
+                                                        TargetName="spSendRequestButtons"
+                                                        Value="Visible" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding ShowSendAndRequestButtons}"
+                                                         Value="False">
+                                                <Setter Property="Visibility"
+                                                        TargetName="spSendRequestButtons"
+                                                        Value="Collapsed" />
+                                            </DataTrigger>
+                                        </DataTemplate.Triggers>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView.Columns>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
     </Grid>
 </UserControl>
