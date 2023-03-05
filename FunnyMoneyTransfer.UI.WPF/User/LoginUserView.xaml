@@ -45,8 +45,8 @@
                              Text="{Binding User.Username}"/>
                     <Label Style="{StaticResource validationLabelStyle}"
                            x:Name="lblUsernameValidation"
-                           Visibility="{Binding ShowValidationErrorInUI, Converter={StaticResource VisibleIfTrueConverter}, Mode=OneWay}"
-                           ToolTip="{Binding ValidationErrorMessage, Mode=OneWay}" />
+                           Visibility="{Binding ShowUsernameValidationErrorInUI, Converter={StaticResource VisibleIfTrueConverter}, Mode=OneWay}"
+                           ToolTip="{Binding UsernameValidationErrorMessage, Mode=OneWay}" />
                 </StackPanel>
                 <StackPanel Style="{StaticResource horizontalNoAlignmentStackPanelStyle}"
                             Grid.Row="3"
@@ -57,7 +57,8 @@
                                  MaxLength="50" /> <!--This rule is arbitrary and not enforced anywhere else-->
                     <Label Style="{StaticResource validationLabelStyle}"
                            x:Name="lblPasswordValidation"
-                           Visibility="Collapsed" />
+                           Visibility="{Binding ShowPasswordValidationErrorInUI, Converter={StaticResource VisibleIfTrueConverter}, Mode=OneWay}"
+                           ToolTip="{Binding PasswordValidationErrorMessage, Mode=OneWay}" />
                 </StackPanel>
                 <Button Style="{StaticResource loginAndRegisterUserButtonStyle}"
                         x:Name="btnLogin"

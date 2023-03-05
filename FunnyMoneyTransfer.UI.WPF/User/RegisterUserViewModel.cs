@@ -21,15 +21,19 @@ namespace FunnyMoneyTransfer.UI.WPF.User
         private const string USERNAME_REQUIRED_ERROR_MESSAGE = "Username is required";
         private const string USERNAME_MAX_LENGTH_ERROR_MESSAGE = "Max length for Username is 50";
         private const string USERNAME_UNIQUE_ERROR_MESSAGE = "Username already exists";
+        private const string PASSWORD_REQUIRED_ERROR_MESSAGE = "Password is required";
+        private const string PASSWORD_MAX_LENGTH_ERROR_MESSAGE = "Max length for Password is 50";
         #endregion
 
         #region fields
         private readonly FunnyMoneyTransferContext _db = new();
         private Data.User _user = null!;
         private bool _isValid;
-        private bool _showValidationErrorInUI;
-        private string? _validationErrorMessage = null;
-        private RelayCommand _registerCommand = null!;
+        private bool _showUsernameValidationErrorInUI;
+        private string? _usernameValidationErrorMessage = null;
+        private bool _showPasswordValidationErrorInUI;
+        private string? _passwordValidationErrorMessage = null;
+        private RelayCommand _registerCommand = null!;        
         #endregion
 
         #region events
@@ -63,28 +67,54 @@ namespace FunnyMoneyTransfer.UI.WPF.User
             }
         }
 
-        public bool ShowValidationErrorInUI
+        public bool ShowUsernameValidationErrorInUI
         {
-            get => _showValidationErrorInUI;
+            get => _showUsernameValidationErrorInUI;
             set
             {
-                if (value != _showValidationErrorInUI)
+                if (value != _showUsernameValidationErrorInUI)
                 {
-                    _showValidationErrorInUI = value;
-                    this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(ShowValidationErrorInUI)));
+                    _showUsernameValidationErrorInUI = value;
+                    this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(ShowUsernameValidationErrorInUI)));
                 }
             }
         }
 
-        public string? ValidationErrorMessage
+        public string? UsernameValidationErrorMessage
         {
-            get => _validationErrorMessage;
+            get => _usernameValidationErrorMessage;
             set
             {
-                if (value != _validationErrorMessage)
+                if (value != _usernameValidationErrorMessage)
                 {
-                    _validationErrorMessage = value;
-                    this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(ValidationErrorMessage)));
+                    _usernameValidationErrorMessage = value;
+                    this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(UsernameValidationErrorMessage)));
+                }
+            }
+        }
+
+        public bool ShowPasswordValidationErrorInUI
+        {
+            get => _showPasswordValidationErrorInUI;
+            set
+            {
+                if (value != _showPasswordValidationErrorInUI)
+                {
+                    _showPasswordValidationErrorInUI = value;
+                    this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(ShowPasswordValidationErrorInUI)));
+                }
+            }
+        }
+
+        public string? PasswordValidationErrorMessage
+        {
+            get => _passwordValidationErrorMessage;
+            set
+            {
+                if (value != _passwordValidationErrorMessage)
+                {
+                    _passwordValidationErrorMessage = value;
+                    this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(PasswordValidationErrorMessage)));
                 }
             }
         }
@@ -123,26 +153,40 @@ namespace FunnyMoneyTransfer.UI.WPF.User
             if (this.User.Username == null || this.User.Username == string.Empty || string.IsNullOrWhiteSpace(this.User.Username))
             {
                 this.IsValid = false;
-                this.ShowValidationErrorInUI = true;
-                this.ValidationErrorMessage = USERNAME_REQUIRED_ERROR_MESSAGE;
+                this.ShowUsernameValidationErrorInUI = true;
+                this.UsernameValidationErrorMessage = USERNAME_REQUIRED_ERROR_MESSAGE;
             }
             else if (this.User.Username!.Length > 50)
             {
                 this.IsValid = false;
-                this.ShowValidationErrorInUI = true;
-                this.ValidationErrorMessage = USERNAME_MAX_LENGTH_ERROR_MESSAGE;
+                this.ShowUsernameValidationErrorInUI = true;
+                this.UsernameValidationErrorMessage = USERNAME_MAX_LENGTH_ERROR_MESSAGE;
             }
             else if (_db.Users.Select(u => u.Username).ToList().Contains<string>(this.User.Username))
             {
                 this.IsValid = false;
-                this.ShowValidationErrorInUI = true;
-                this.ValidationErrorMessage = USERNAME_UNIQUE_ERROR_MESSAGE;
+                this.ShowUsernameValidationErrorInUI = true;
+                this.UsernameValidationErrorMessage = USERNAME_UNIQUE_ERROR_MESSAGE;
+            }
+            else if (this.SecurePassword == null || this.SecurePassword.ToString() == string.Empty || string.IsNullOrWhiteSpace(this.SecurePassword.ToString()))
+            {
+                this.IsValid = false;
+                this.ShowPasswordValidationErrorInUI = true;
+                this.PasswordValidationErrorMessage = PASSWORD_REQUIRED_ERROR_MESSAGE;
+            }
+            else if (this.SecurePassword.ToString()!.Length > 50)
+            {
+                this.IsValid = false;
+                this.ShowPasswordValidationErrorInUI = true;
+                this.PasswordValidationErrorMessage = PASSWORD_MAX_LENGTH_ERROR_MESSAGE;
             }
             else
             {
                 this.IsValid = true;
-                this.ShowValidationErrorInUI = false;
-                this.ValidationErrorMessage = null;
+                this.ShowUsernameValidationErrorInUI = false;
+                this.UsernameValidationErrorMessage = null;
+                this.ShowPasswordValidationErrorInUI = false;
+                this.PasswordValidationErrorMessage = null;
             }
         }
 
