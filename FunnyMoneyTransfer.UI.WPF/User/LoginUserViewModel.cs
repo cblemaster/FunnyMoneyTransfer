@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.Linq;
 using System.Security;
+using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace FunnyMoneyTransfer.UI.WPF.User
@@ -188,13 +190,14 @@ namespace FunnyMoneyTransfer.UI.WPF.User
         public void Login()
         {
             this.Validate();
-            this.User = _db.Users.Include(u => u.Account).FirstOrDefault(u => u.Username == this.User.Username)!; //usernames are unique, so ok to search by username
+            this.User = _db.Users.Include(u => u.Account).Include(u => u.Account!.StartingBalance)    .FirstOrDefault(u => u.Username == this.User.Username)!; //usernames are unique, so ok to search by username
 
             if (this.IsValid && PasswordHasher.IsPasswordValid(this.SecurePassword.ToString()!, this.User.PasswordHash))
-            {               
+            {
+                MainWindow mw = (MainWindow)App.Current.MainWindow;
                 MainWindowViewModel mainWindowContext = (MainWindowViewModel)App.Current.MainWindow.DataContext;
                 LoggedInUserViewModel loggedInUserContext = (((((App.Current.MainWindow as MainWindow)!).loggedInUserView).DataContext) as LoggedInUserViewModel)!;
-                
+
                 if (mainWindowContext != null && loggedInUserContext != null)
                 {
                     loggedInUserContext.LoggedInUser = this.User;
