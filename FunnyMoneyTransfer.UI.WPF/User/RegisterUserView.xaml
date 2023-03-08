@@ -54,13 +54,12 @@
                     <PasswordBox Style="{StaticResource passwordBoxStyle}"
                                  x:Name="pbPassword"                                 
                                  PasswordChanged="pbPassword_PasswordChanged"
-                                 MaxLength="50"
-                                 Visibility="{Binding ShowPasswordValidationErrorInUI, Converter={StaticResource VisibleIfTrueConverter}, Mode=OneWay}"
-                                 ToolTip="{Binding PasswordValidationErrorMessage, Mode=OneWay}" />
+                                 MaxLength="50" />
                     <!--This rule is arbitrary and not enforced anywhere else-->
                     <Label Style="{StaticResource validationLabelStyle}"
                            x:Name="lblPasswordValidation"
-                           Visibility="Collapsed" />
+                           Visibility="{Binding ShowPasswordValidationErrorInUI, Converter={StaticResource VisibleIfTrueConverter}, Mode=OneWay}"
+                           ToolTip="{Binding PasswordValidationErrorMessage, Mode=OneWay}" />
                 </StackPanel>
                 <Button Style="{StaticResource loginAndRegisterUserButtonStyle}"
                         x:Name="btnRegister"
