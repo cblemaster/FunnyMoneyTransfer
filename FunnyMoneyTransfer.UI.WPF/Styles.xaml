@@ -50,7 +50,7 @@
         <Setter Property="FontWeight"
                 Value="Medium" />
         <Setter Property="FontSize"
-                Value="7" />
+                Value="10" />
     </Style>
     <!--Grids-->
     <Style x:Key="gridWhiteStyle"
@@ -84,6 +84,14 @@
                 Value="Red" />
         <Setter Property="FontWeight"
                 Value="UltraBold" />
+    </Style>
+    <Style x:Key="asOfLabelStyle"
+           TargetType="Label"
+           BasedOn="{StaticResource labelStyle}">
+        <Setter Property="FontSize"
+                Value="10" />
+        <Setter Property="Margin"
+                Value="15 0 0 0" />
     </Style>
     <!--Borders-->
     <Style x:Key="baseBorderStyle"
