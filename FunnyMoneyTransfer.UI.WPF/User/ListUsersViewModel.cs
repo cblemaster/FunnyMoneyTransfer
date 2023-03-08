@@ -1,4 +1,4 @@
-﻿using FunnyMoneyTransfer.Data;
+﻿using FunnyMoneyTransfer.Data.Data;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -9,12 +9,12 @@ namespace FunnyMoneyTransfer.UI.WPF.User
     {
         #region ctor
         public ListUsersViewModel() =>
-            this.Users = new ObservableCollection<Data.User>(_db.Users.OrderBy(u => u.Username).ToList());
+            this.Users = new ObservableCollection<Data.Models.User>(_db.Users.OrderBy(u => u.Username).ToList());
         #endregion
 
         #region fields
         private readonly FunnyMoneyTransferContext _db = new();
-        private ObservableCollection<Data.User> _users = null!;
+        private ObservableCollection<Data.Models.User> _users = null!;
         #endregion
 
         #region events
@@ -22,7 +22,7 @@ namespace FunnyMoneyTransfer.UI.WPF.User
         #endregion
 
         #region properties
-        public ObservableCollection<Data.User> Users
+        public ObservableCollection<Data.Models.User> Users
         {
             get => _users;
             set

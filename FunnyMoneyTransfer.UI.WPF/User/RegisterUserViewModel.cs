@@ -1,4 +1,5 @@
-﻿using FunnyMoneyTransfer.Data;
+﻿using FunnyMoneyTransfer.Data.Data;
+using FunnyMoneyTransfer.Data.Models;
 using FunnyMoneyTransfer.Security;
 using System;
 using System.ComponentModel;
@@ -27,13 +28,13 @@ namespace FunnyMoneyTransfer.UI.WPF.User
 
         #region fields
         private readonly FunnyMoneyTransferContext _db = new();
-        private Data.User _user = null!;
+        private Data.Models.User _user = null!;
         private bool _isValid;
         private bool _showUsernameValidationErrorInUI;
         private string? _usernameValidationErrorMessage = null;
         private bool _showPasswordValidationErrorInUI;
         private string? _passwordValidationErrorMessage = null;
-        private RelayCommand _registerCommand = null!;        
+        private RelayCommand _registerCommand = null!;
         #endregion
 
         #region events
@@ -41,7 +42,7 @@ namespace FunnyMoneyTransfer.UI.WPF.User
         #endregion
 
         #region properties
-        public Data.User User
+        public Data.Models.User User
         {
             get => _user;
             set

@@ -1,8 +1,8 @@
-﻿using FunnyMoneyTransfer.Data.GeneratedModels;
+﻿using FunnyMoneyTransfer.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace FunnyMoneyTransfer.Data
+namespace FunnyMoneyTransfer.Data.Data
 {
     public partial class FunnyMoneyTransferContext
     {
@@ -39,4 +39,7 @@ namespace FunnyMoneyTransfer.Data
             return builder.GetConnectionString("Project") ?? string.Empty;
         }
     }
+
 }
+
+

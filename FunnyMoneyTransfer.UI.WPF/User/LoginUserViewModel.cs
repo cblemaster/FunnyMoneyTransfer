@@ -1,11 +1,9 @@
-﻿using FunnyMoneyTransfer.Data;
+﻿using FunnyMoneyTransfer.Data.Data;
 using FunnyMoneyTransfer.Security;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.Linq;
 using System.Security;
-using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
 
 namespace FunnyMoneyTransfer.UI.WPF.User
@@ -30,13 +28,13 @@ namespace FunnyMoneyTransfer.UI.WPF.User
 
         #region fields
         private readonly FunnyMoneyTransferContext _db = new();
-        private Data.User _user = null!;
+        private Data.Models.User _user = null!;
         private bool _isValid;
         private bool _showUsernameValidationErrorInUI;
         private string? _usernameValidationErrorMessage = null;
         private bool _showPasswordValidationErrorInUI;
         private string? _passwordValidationErrorMessage;
-        private RelayCommand _loginCommand = null!;        
+        private RelayCommand _loginCommand = null!;
         #endregion
 
         #region events
@@ -44,7 +42,7 @@ namespace FunnyMoneyTransfer.UI.WPF.User
         #endregion
 
         #region properties
-        public Data.User User
+        public Data.Models.User User
         {
             get => _user;
             set
@@ -190,7 +188,7 @@ namespace FunnyMoneyTransfer.UI.WPF.User
         public void Login()
         {
             this.Validate();
-            this.User = _db.Users.Include(u => u.Account).Include(u => u.Account!.StartingBalance)    .FirstOrDefault(u => u.Username == this.User.Username)!; //usernames are unique, so ok to search by username
+            this.User = _db.Users.Include(u => u.Account).Include(u => u.Account!.StartingBalance).FirstOrDefault(u => u.Username == this.User.Username)!; //usernames are unique, so ok to search by username
 
             if (this.IsValid && PasswordHasher.IsPasswordValid(this.SecurePassword.ToString()!, this.User.PasswordHash))
             {

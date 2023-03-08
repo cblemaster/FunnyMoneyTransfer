@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace FunnyMoneyTransfer.UI.WPF.User
 {
@@ -17,7 +12,7 @@ namespace FunnyMoneyTransfer.UI.WPF.User
         #endregion
 
         #region fields
-        private Data.User _loggedInUser = null!;
+        private Data.Models.User _loggedInUser = null!;
         #endregion
 
         #region events
@@ -25,7 +20,7 @@ namespace FunnyMoneyTransfer.UI.WPF.User
         #endregion
 
         #region properties
-        public Data.User LoggedInUser
+        public Data.Models.User LoggedInUser
         {
             get => _loggedInUser;
             set
@@ -42,7 +37,7 @@ namespace FunnyMoneyTransfer.UI.WPF.User
 
         public bool IsUserLoggedIn
         {
-            get => this.LoggedInUser != null && this.LoggedInUser is Data.User;
+            get => this.LoggedInUser != null && this.LoggedInUser is Data.Models.User;
         }
 
         public bool IsNoUserLoggedIn
