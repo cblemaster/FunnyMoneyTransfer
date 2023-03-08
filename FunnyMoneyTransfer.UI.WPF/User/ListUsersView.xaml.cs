@@ -14,9 +14,9 @@ namespace FunnyMoneyTransfer.UI.WPF.User
             ListUsersViewModel listUsersContext = (ListUsersViewModel)this.DataContext;
             LoggedInUserViewModel loggedInUserContext = (((((App.Current.MainWindow as MainWindow)!).loggedInUserView).DataContext) as LoggedInUserViewModel)!;
 
-            if (e.AddedItems.Count > 0 && e.AddedItems[0] is Data.User selectedUser)
+            if (e.AddedItems.Count > 0 && e.AddedItems[0] is Data.Models.User selectedUser)
             {
-                foreach (Data.User user in listUsersContext.Users)
+                foreach (Data.Models.User user in listUsersContext.Users)
                 {
                     user.ShowSendAndRequestButtons = user.Id == selectedUser.Id && user.Id != loggedInUserContext.LoggedInUser.Id;
                 }

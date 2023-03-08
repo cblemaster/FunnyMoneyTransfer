@@ -192,7 +192,6 @@ namespace FunnyMoneyTransfer.UI.WPF.User
 
             if (this.IsValid && PasswordHasher.IsPasswordValid(this.SecurePassword.ToString()!, this.User.PasswordHash))
             {
-                MainWindow mw = (MainWindow)App.Current.MainWindow;
                 MainWindowViewModel mainWindowContext = (MainWindowViewModel)App.Current.MainWindow.DataContext;
                 LoggedInUserViewModel loggedInUserContext = (((((App.Current.MainWindow as MainWindow)!).loggedInUserView).DataContext) as LoggedInUserViewModel)!;
 
