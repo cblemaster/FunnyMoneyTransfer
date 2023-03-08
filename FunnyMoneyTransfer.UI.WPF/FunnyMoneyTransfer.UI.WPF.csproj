@@ -12,4 +12,8 @@
     <ProjectReference Include="..\FunnyMoneyTransfer.Security\FunnyMoneyTransfer.Security.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Account\" />
+  </ItemGroup>
+
 </Project>

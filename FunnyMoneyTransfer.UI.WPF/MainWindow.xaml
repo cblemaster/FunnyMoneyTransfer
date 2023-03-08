@@ -5,7 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FunnyMoneyTransfer.UI.WPF"
         xmlns:user="clr-namespace:FunnyMoneyTransfer.UI.WPF.User"
-        xmlns:account="clr-namespace:FunnyMoneyTransfer.UI.WPF.Account"
         mc:Ignorable="d"
         Title="MainWindow"
         Height="450"
@@ -34,47 +33,41 @@
               Style="{StaticResource menuStyle}">
             <MenuItem Style="{StaticResource boldMenuItemStyle}"
                       Header="Register"
-                      Visibility="{Binding IsNoUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}"
+                      Visibility="{Binding ElementName=loggedInUserView, Path=DataContext.IsNoUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}"
                       Command="{Binding NavToRegisterCommand}" />
             <MenuItem Style="{StaticResource boldMenuItemStyle}"
                       Header="Login"
-                      Visibility="{Binding IsNoUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}"
+                      Visibility="{Binding ElementName=loggedInUserView, Path=DataContext.IsNoUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}"
                       Command="{Binding NavToLoginCommand}" />
             <MenuItem Style="{StaticResource menuItemStyle}"
                       Header="Log Out"
-                      Visibility="{Binding IsUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}"
+                      Visibility="{Binding ElementName=loggedInUserView, Path=DataContext.IsUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}"
                       Command="{Binding NavToLogoutCommand}" />
         </Menu>
         <Border Style="{StaticResource thinBorderStyle}"
-                Grid.Row="1">
+                Grid.Row="1"
+                Grid.RowSpan="2"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Margin="5 5 5 5"
+                Visibility="{Binding ElementName=loggedInUserView, Path=DataContext.IsUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}">
             <Grid x:Name="grdLoggedInUserView"
                   Grid.Row="1"
-                  Visibility="{Binding IsUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}">
-                <user:LoggedInUserView x:Name="loggedInUserView"
-                    HorizontalAlignment="Stretch"
-                                       VerticalAlignment="Stretch" />
-            </Grid>
-        </Border>
-        <Border Style="{StaticResource thinBorderStyle}"
-                Grid.Row="2">
-            <Grid x:Name="grdBalanceView"
-                  Grid.Row="2"
-                  Visibility="{Binding IsUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}">
-                <account:BalanceView x:Name="balanceView"
-                                     VerticalAlignment="Stretch"
-                                     HorizontalAlignment="Stretch" />
+                  Grid.RowSpan="2">
+                <user:LoggedInUserView x:Name="loggedInUserView" />
             </Grid>
         </Border>
         <Border Style="{StaticResource thinBorderStyle}"
                 Grid.Row="3"
-                Grid.RowSpan="2">
+                Grid.RowSpan="2"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch" Margin="5 5 5 5"
+                Visibility="{Binding ElementName=loggedInUserView, Path=DataContext.IsUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}">
             <Grid x:Name="grdUsersView"
                   Grid.Row="3"
                   Grid.RowSpan="2"
-                  Visibility="{Binding IsUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}">
-                <user:ListUsersView x:Name="listUsersView"
-                                    VerticalAlignment="Stretch"
-                                    HorizontalAlignment="Stretch" />
+                  >
+                <user:ListUsersView x:Name="listUsersView" />
             </Grid>
         </Border>
         <Border Style="{StaticResource thinBorderStyle}"
@@ -87,7 +80,7 @@
                   Grid.Row="1"
                   Grid.ColumnSpan="2"
                   Grid.RowSpan="4"
-                  Visibility="{Binding IsUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}"></Grid>
+                  Visibility="{Binding ElementName=loggedInUserView, Path=DataContext.IsUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}"></Grid>
         </Border>
         <Border Style="{StaticResource thinBorderStyle}"
                 Grid.Column="3"
@@ -97,7 +90,7 @@
                   Grid.Column="3"
                   Grid.Row="1"
                   Grid.RowSpan="4"
-                  Visibility="{Binding IsUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}"></Grid>
+                  Visibility="{Binding ElementName=loggedInUserView, Path=DataContext.IsUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}" />
         </Border>
         <!--Login and Register Views-->
         <Grid Grid.Row="1"

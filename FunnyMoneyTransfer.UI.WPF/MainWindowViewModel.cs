@@ -7,10 +7,7 @@ namespace FunnyMoneyTransfer.UI.WPF
     public class MainWindowViewModel : INotifyPropertyChanged
     {
         #region ctor
-        public MainWindowViewModel()
-        {
-            this.ShowIntro = true;
-        }
+        public MainWindowViewModel() => this.ShowIntro = true;
         #endregion
 
         #region fields
@@ -130,12 +127,16 @@ namespace FunnyMoneyTransfer.UI.WPF
             this.ShowIntro = true;
 
             MainWindow m = (MainWindow)App.Current.MainWindow;
-            if (m != null)
+            LoggedInUserViewModel loggedInUserContext = (((((App.Current.MainWindow as MainWindow)!).loggedInUserView).DataContext) as LoggedInUserViewModel)!;
+
+            if (m != null && loggedInUserContext != null)
             {
                 m.loginUserView.tbUsername.Text = null;
                 m.loginUserView.pbPassword.Password = null;
                 m.registerUserView.tbUsername.Text = null;
                 m.registerUserView.pbPassword.Password = null;
+
+                loggedInUserContext.LoggedInUser = null!;
             }
         }
         #endregion
