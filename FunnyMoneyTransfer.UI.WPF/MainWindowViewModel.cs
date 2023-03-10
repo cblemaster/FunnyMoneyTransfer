@@ -1,5 +1,10 @@
-﻿using FunnyMoneyTransfer.UI.WPF.User;
+﻿using FunnyMoneyTransfer.Data;
+using FunnyMoneyTransfer.UI.WPF.Transfer;
+using FunnyMoneyTransfer.UI.WPF.User;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 
 namespace FunnyMoneyTransfer.UI.WPF
@@ -11,12 +16,17 @@ namespace FunnyMoneyTransfer.UI.WPF
         #endregion
 
         #region fields
+        public readonly FunnyMoneyTransferContext _db = new();
+        private bool _isUserLoggedIn;
+        private bool _isNoUserLoggedIn;
         private RelayCommand _navToLoginCommand = null!;
         private RelayCommand _navToRegisterCommand = null!;
         private RelayCommand _navToLogoutCommand = null!;
         private bool _showLoginControl;
         private bool _showRegisterControl;
-        private bool _showIntro;
+        private bool _showIntro;        
+        private ObservableCollection<Data.User> _users = null!;
+        private Data.User _loggedInUser = null!;       
         #endregion
 
         #region events
@@ -24,6 +34,38 @@ namespace FunnyMoneyTransfer.UI.WPF
         #endregion
 
         #region properties
+        public bool IsUserLoggedIn
+        {
+            get => this.GetLoggedInUserFromDB() is Data.User;
+            
+            set
+            {
+                if (value != _isUserLoggedIn)
+                {
+                    _isUserLoggedIn = value;
+                    this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(IsUserLoggedIn)));
+                }
+                
+            }
+        }
+
+        public bool IsNoUserLoggedIn
+        {
+            get => !this.IsUserLoggedIn;
+
+            set
+            {
+                if (value != _isNoUserLoggedIn)
+                {
+                    _isNoUserLoggedIn = value;
+                    this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(IsNoUserLoggedIn)));
+                }
+
+            }
+        }
+
+        public bool CanNavigate => true;
+
         public ICommand NavToRegisterCommand
         {
             get
@@ -63,7 +105,33 @@ namespace FunnyMoneyTransfer.UI.WPF
             }
         }
 
-        public bool CanNavigate => true;
+        public Data.User LoggedInUser
+        {
+            get => _loggedInUser;
+            set
+            {
+                if (value != _loggedInUser)
+                {
+                    _loggedInUser = value;
+                    this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(LoggedInUser)));
+                    this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(IsUserLoggedIn)));
+                    this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(IsNoUserLoggedIn)));
+                }
+            }
+        }
+
+        public ObservableCollection<Data.User> Users
+        {
+            get => _users;
+            set
+            {
+                if (value != _users)
+                {
+                    _users = value;
+                    this.PropertyChanged!(this, new PropertyChangedEventArgs(nameof(Users)));
+                }
+            }
+        }
 
         public bool ShowLoginControl
         {
@@ -103,9 +171,17 @@ namespace FunnyMoneyTransfer.UI.WPF
                 }
             }
         }
+
         #endregion
 
         #region methods
+        public Data.User GetLoggedInUserFromDB() =>
+            this._db.Users.SingleOrDefault(u => u.IsLoggedIn!.Value)!;
+
+        public ObservableCollection<Data.User> GetAllUsersFromDB() =>
+            new ObservableCollection<Data.User>
+                (this._db.Users.OrderBy(u => u.Username).ToList());
+
         private void NavToRegister()
         {
             this.ShowLoginControl = false;
@@ -127,18 +203,23 @@ namespace FunnyMoneyTransfer.UI.WPF
             this.ShowIntro = true;
 
             MainWindow m = (MainWindow)App.Current.MainWindow;
-            LoggedInUserViewModel loggedInUserContext = (((((App.Current.MainWindow as MainWindow)!).loggedInUserView).DataContext) as LoggedInUserViewModel)!;
 
-            if (m != null && loggedInUserContext != null)
+            if (m is MainWindow)
             {
                 m.loginUserView.tbUsername.Text = null;
                 m.loginUserView.pbPassword.Password = null;
                 m.registerUserView.tbUsername.Text = null;
                 m.registerUserView.pbPassword.Password = null;
 
-                loggedInUserContext.LoggedInUser = null!;
+                if (this.LoggedInUser is Data.User)
+                {
+                    this.LoggedInUser.IsLoggedIn = false;
+                    this._db.SaveChanges();
+                }              
+
+                this.LoggedInUser = null!;
             }
         }
-        #endregion
+        #endregion        
     }
 }

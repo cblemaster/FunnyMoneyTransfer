@@ -29,68 +29,149 @@
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
+        <!--Menu-->
         <Menu Grid.ColumnSpan="4"
               Style="{StaticResource menuStyle}">
             <MenuItem Style="{StaticResource boldMenuItemStyle}"
                       Header="Register"
-                      Visibility="{Binding ElementName=loggedInUserView, Path=DataContext.IsNoUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}"
+                      Visibility="{Binding IsNoUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}"
                       Command="{Binding NavToRegisterCommand}" />
             <MenuItem Style="{StaticResource boldMenuItemStyle}"
                       Header="Login"
-                      Visibility="{Binding ElementName=loggedInUserView, Path=DataContext.IsNoUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}"
+                      Visibility="{Binding IsNoUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}"
                       Command="{Binding NavToLoginCommand}" />
             <MenuItem Style="{StaticResource menuItemStyle}"
                       Header="Log Out"
-                      Visibility="{Binding ElementName=loggedInUserView, Path=DataContext.IsUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}"
+                      Visibility="{Binding IsUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}"
                       Command="{Binding NavToLogoutCommand}" />
         </Menu>
+        <!--Logged in as and Balance view-->
         <Border Style="{StaticResource thinBorderStyle}"
                 Grid.Row="1"
-                Grid.RowSpan="2"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                Margin="5 5 5 5"
-                Visibility="{Binding ElementName=loggedInUserView, Path=DataContext.IsUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}">
+                Visibility="{Binding IsUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}">
             <Grid x:Name="grdLoggedInUserView"
-                  Grid.Row="1"
-                  Grid.RowSpan="2">
-                <user:LoggedInUserView x:Name="loggedInUserView" />
+                  Grid.Row="1">
+                <Grid Style="{StaticResource gridWhiteStyle}">
+                    <StackPanel Style="{StaticResource verticalStackPanelStyle}">
+                        <TextBlock Style="{StaticResource smallHeaderTextBlockStyle}"
+                                   x:Name="tbLoggedInUserHeader"
+                                   Text="Logged in as:" />
+                        <TextBlock Style="{StaticResource balanceTextBlockStyle}"
+                                   x:Name="tbUsername"
+                                   Text="{Binding LoggedInUser.Username}" />
+                        <Border BorderBrush="DarkGray"
+                                BorderThickness="0 0 1 0" />
+                        <TextBlock Style="{StaticResource smallHeaderTextBlockStyle}"
+                                   x:Name="tbBalanceHeader"
+                                   Text="Your current balance:" />
+                        <TextBlock Style="{StaticResource balanceTextBlockStyle}"
+                                   x:Name="tbBalance"
+                                   Text="{Binding LoggedInUser.Account.CalculatedBalance, StringFormat=C}" />
+                        <!--<StackPanel Style="{StaticResource horizontalNoAlignmentStackPanelStyle}">
+                    <Label Style="{StaticResource asOfLabelStyle}"
+                           Content="As of:" />
+                    <TextBlock Style="{StaticResource asOfTextBlockStyle}"
+                               x:Name="tbAsOfDate"
+                               Text="{Binding  AsOfDate}" />
+                </StackPanel>-->
+                    </StackPanel>
+                </Grid>
             </Grid>
         </Border>
+        <!--Users list view-->
         <Border Style="{StaticResource thinBorderStyle}"
-                Grid.Row="3"
-                Grid.RowSpan="2"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch" Margin="5 5 5 5"
-                Visibility="{Binding ElementName=loggedInUserView, Path=DataContext.IsUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}">
+                Grid.Row="2"
+                Grid.RowSpan="3"
+                Visibility="{Binding IsUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}">
             <Grid x:Name="grdUsersView"
-                  Grid.Row="3"
-                  Grid.RowSpan="2"
-                  >
-                <user:ListUsersView x:Name="listUsersView" />
+                  Grid.Row="2"
+                  Grid.RowSpan="3">
+                <Grid Style="{StaticResource gridWhiteStyle}">
+                    <StackPanel Style="{StaticResource verticalStackPanelStyle}">
+                        <TextBlock x:Name="tbHeader"
+                                   Text="Users:"
+                                   Style="{StaticResource smallHeaderTextBlockStyle}" />
+                        <Grid>
+                            <ListView x:Name="lvUsers"
+                                      ItemsSource="{Binding Users}"
+                                      SelectionMode="Single"
+                                      SelectionChanged="lvUsers_SelectionChanged"
+                                      Style="{StaticResource listViewStyle}">
+                                <ListView.View>
+                                    <GridView>
+                                        <GridView.Columns>
+                                            <GridViewColumn Header="User Name"
+                                                            Width="auto">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Username}"
+                                                                   Style="{StaticResource baseTextBlockStyle}" />
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn Header="Actions"
+                                                            Width="100">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Style="{StaticResource horizontalNoAlignmentStackPanelStyle}"
+                                                                    x:Name="spSendRequestButtons">
+                                                            <Button x:Name="btnSend"
+                                                                    Content="Send"
+                                                                    Style="{StaticResource listUsersViewButtonStyle}" />
+                                                            <Button x:Name="btnRequest"
+                                                                    Content="Request"
+                                                                    Margin="5 0 0 0"
+                                                                    Style="{StaticResource listUsersViewButtonStyle}" />
+                                                        </StackPanel>
+                                                        <DataTemplate.Triggers>
+                                                            <DataTrigger Binding="{Binding ShowSendAndRequestButtons}"
+                                                                         Value="True">
+                                                                <Setter Property="Visibility"
+                                                                        TargetName="spSendRequestButtons"
+                                                                        Value="Visible" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding ShowSendAndRequestButtons}"
+                                                                         Value="False">
+                                                                <Setter Property="Visibility"
+                                                                        TargetName="spSendRequestButtons"
+                                                                        Value="Collapsed" />
+                                                            </DataTrigger>
+                                                        </DataTemplate.Triggers>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                        </GridView.Columns>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
             </Grid>
         </Border>
+        <!--Transfers list view-->
         <Border Style="{StaticResource thinBorderStyle}"
                 Grid.Column="1"
                 Grid.Row="1"
                 Grid.RowSpan="4"
-                Grid.ColumnSpan="2">
+                Grid.ColumnSpan="2"
+                Visibility="{Binding IsUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}">
             <Grid x:Name="grdTransferListView"
                   Grid.Column="1"
                   Grid.Row="1"
                   Grid.ColumnSpan="2"
-                  Grid.RowSpan="4"
-                  Visibility="{Binding ElementName=loggedInUserView, Path=DataContext.IsUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}"></Grid>
+                  Grid.RowSpan="4" />
         </Border>
+        <!--Transfer details view-->
         <Border Style="{StaticResource thinBorderStyle}"
                 Grid.Column="3"
                 Grid.Row="1"
-                Grid.RowSpan="4">
+                Grid.RowSpan="4"
+                Visibility="{Binding IsUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}">
             <Grid x:Name="grdTransferDetails"
                   Grid.Column="3"
                   Grid.Row="1"
-                  Grid.RowSpan="4"
-                  Visibility="{Binding ElementName=loggedInUserView, Path=DataContext.IsUserLoggedIn, Converter={StaticResource VisibleIfTrueConverter}}" />
+                  Grid.RowSpan="4" />
         </Border>
         <!--Login and Register Views-->
         <Grid Grid.Row="1"
@@ -105,11 +186,11 @@
         </Grid>
         <Grid Grid.Row="1"
               Grid.ColumnSpan="4"
-              Grid.RowSpan="4">
+              Grid.RowSpan="4"
+              Visibility="{Binding ShowIntro, Converter={StaticResource VisibleIfTrueConverter}}">
             <TextBlock x:Name="tbIntro"
                        Style="{StaticResource headerTextBlockStyle}"
-                       Text="Hello! Please Register or Login"
-                       Visibility="{Binding ShowIntro, Converter={StaticResource VisibleIfTrueConverter}}" />
+                       Text="Hello! Please Register or Login" />
         </Grid>
     </Grid>
 </Window>

@@ -1,4 +1,4 @@
-﻿using FunnyMoneyTransfer.Data.Data;
+﻿using FunnyMoneyTransfer.Data;
 using FunnyMoneyTransfer.Security;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
@@ -14,13 +14,14 @@ namespace FunnyMoneyTransfer.UI.WPF.User
         public LoginUserViewModel()
         {
             this.User = new();
+            this._db = (((MainWindow)App.Current.MainWindow).DataContext as MainWindowViewModel)!._db;
         }
+            
         #endregion
 
         #region consts
         private const string USERNAME_REQUIRED_ERROR_MESSAGE = "Username is required";
         private const string USERNAME_MAX_LENGTH_ERROR_MESSAGE = "Max length for Username is 50";
-        private const string USERNAME_UNIQUE_ERROR_MESSAGE = "Username already exists";
         private const string PASSWORD_REQUIRED_ERROR_MESSAGE = "Password is required";
         private const string PASSWORD_MAX_LENGTH_ERROR_MESSAGE = "Max length for Password is 50";
         private const string PASSWORD_INCORRECT_ERROR_MESSAGE = "Password is incorrect";
@@ -28,7 +29,7 @@ namespace FunnyMoneyTransfer.UI.WPF.User
 
         #region fields
         private readonly FunnyMoneyTransferContext _db = new();
-        private Data.Models.User _user = null!;
+        private Data.User _user = null!;
         private bool _isValid;
         private bool _showUsernameValidationErrorInUI;
         private string? _usernameValidationErrorMessage = null;
@@ -42,7 +43,7 @@ namespace FunnyMoneyTransfer.UI.WPF.User
         #endregion
 
         #region properties
-        public Data.Models.User User
+        public Data.User User
         {
             get => _user;
             set
@@ -190,21 +191,29 @@ namespace FunnyMoneyTransfer.UI.WPF.User
             this.Validate();
             this.User = _db.Users.Include(u => u.Account).Include(u => u.Account!.StartingBalance).FirstOrDefault(u => u.Username == this.User.Username)!; //usernames are unique, so ok to search by username
 
-            if (this.IsValid && PasswordHasher.IsPasswordValid(this.SecurePassword.ToString()!, this.User.PasswordHash))
+            if (this.User is Data.User && this.IsValid && PasswordHasher.IsPasswordValid(this.SecurePassword.ToString()!, this.User.PasswordHash))
             {
                 MainWindowViewModel mainWindowContext = (MainWindowViewModel)App.Current.MainWindow.DataContext;
-                LoggedInUserViewModel loggedInUserContext = (((((App.Current.MainWindow as MainWindow)!).loggedInUserView).DataContext) as LoggedInUserViewModel)!;
 
-                if (mainWindowContext != null && loggedInUserContext != null)
+                if (mainWindowContext is MainWindowViewModel)
                 {
-                    loggedInUserContext.LoggedInUser = this.User;
+                    this.User.IsLoggedIn = true;
+                    this._db.SaveChanges();
+                    
+                    mainWindowContext.LoggedInUser = this.User;
                     mainWindowContext.ShowLoginControl = false;
                     mainWindowContext.ShowRegisterControl = false;
                     mainWindowContext.ShowIntro = false;
+                    mainWindowContext.Users = mainWindowContext.GetAllUsersFromDB();
                 }
             }
             else
+            {
                 this.User = null!;
+                this.IsValid = false;
+                this.ShowPasswordValidationErrorInUI = true;
+                this.PasswordValidationErrorMessage = PASSWORD_INCORRECT_ERROR_MESSAGE;
+            }               
         }
         #endregion
     }

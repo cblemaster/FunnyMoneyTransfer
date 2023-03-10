@@ -1,5 +1,4 @@
-﻿using FunnyMoneyTransfer.Data.Data;
-using FunnyMoneyTransfer.Data.Models;
+﻿using FunnyMoneyTransfer.Data;
 using FunnyMoneyTransfer.Security;
 using System;
 using System.ComponentModel;
@@ -15,7 +14,9 @@ namespace FunnyMoneyTransfer.UI.WPF.User
         public RegisterUserViewModel()
         {
             this.User = new();
+            this._db = (((MainWindow)App.Current.MainWindow).DataContext as MainWindowViewModel)!._db;
         }
+        
         #endregion
 
         #region consts
@@ -28,7 +29,7 @@ namespace FunnyMoneyTransfer.UI.WPF.User
 
         #region fields
         private readonly FunnyMoneyTransferContext _db = new();
-        private Data.Models.User _user = null!;
+        private Data.User _user = null!;
         private bool _isValid;
         private bool _showUsernameValidationErrorInUI;
         private string? _usernameValidationErrorMessage = null;
@@ -42,7 +43,7 @@ namespace FunnyMoneyTransfer.UI.WPF.User
         #endregion
 
         #region properties
-        public Data.Models.User User
+        public Data.User User
         {
             get => _user;
             set
@@ -210,18 +211,21 @@ namespace FunnyMoneyTransfer.UI.WPF.User
                     },
                     CreateDate = createDate
                 };
+                
+                this.User.IsLoggedIn = true;
+                
                 _db.Users.Add(this.User);
                 _db.SaveChanges();
 
                 MainWindowViewModel mainWindowContext = (MainWindowViewModel)App.Current.MainWindow.DataContext;
-                LoggedInUserViewModel loggedInUserContext = (((((App.Current.MainWindow as MainWindow)!).loggedInUserView).DataContext) as LoggedInUserViewModel)!;
 
-                if (mainWindowContext != null && loggedInUserContext != null)
+                if (mainWindowContext is MainWindowViewModel)
                 {
-                    loggedInUserContext.LoggedInUser = this.User;
+                    mainWindowContext.LoggedInUser = this.User;
                     mainWindowContext.ShowLoginControl = false;
                     mainWindowContext.ShowRegisterControl = false;
                     mainWindowContext.ShowIntro = false;
+                    mainWindowContext.Users = mainWindowContext.GetAllUsersFromDB();
                 }
             }
         }

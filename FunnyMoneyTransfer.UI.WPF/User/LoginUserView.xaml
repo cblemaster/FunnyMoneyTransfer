@@ -60,7 +60,7 @@
                            Visibility="{Binding ShowPasswordValidationErrorInUI, Converter={StaticResource VisibleIfTrueConverter}, Mode=OneWay}"
                            ToolTip="{Binding PasswordValidationErrorMessage, Mode=OneWay}" />
                 </StackPanel>
-                <Button Style="{StaticResource loginAndRegisterUserButtonStyle}"
+                <Button Style="{StaticResource mainButtonStyle}"
                         x:Name="btnLogin"
                         Grid.Column="1"
                         Grid.Row="4"
